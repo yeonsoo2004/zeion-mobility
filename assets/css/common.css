@@ -1,0 +1,178 @@
+/* 
+  Modern Design System & Utilities
+  디자인 토큰(Figma 등)과 1:1 매칭되는 공통 스타일 시스템
+*/
+
+/* ==========================================
+   1. BASE: 글로벌 디자인 토큰 (변수)
+========================================== */
+@layer base {
+    :root {
+      /* 🎨 Color System (디자인 토큰 네이밍 일치화) */
+      --gray-font: #505050;
+      --main-font: #121212;
+      --point-green: #00B87A;
+      --point-blue: #2563EB;
+      --main-color: #050D1A;
+  
+      /* 🔠 Typography System */
+      --font-primary: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      
+      --weight-regular: 400;
+      --weight-semibold: 600;
+      --weight-bold: 700;
+  
+      --line-height-heading: 1.2; /* 120% */
+      --line-height-subheading: 1.3; /* 130% */
+      --line-height-body: 1.5; /* 150% */
+    }
+  
+    /* 기본 문서 텍스트 색상 적용 */
+    body {
+      color: var(--main-font);
+    }
+  }
+  
+  /* ==========================================
+     2. UTILITIES: 바이브 코딩용 유틸리티 클래스
+  ========================================== */
+  @layer utilities {
+    
+    /* ---------------------------------
+       Typography (H1 제외)
+    --------------------------------- */
+    .title-h2 {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-bold);
+      font-size: clamp(1.5rem, 3vw + 0.5rem, 2rem); /* 24px ~ 32px */
+      line-height: var(--line-height-heading);
+      letter-spacing: -0.015em;
+      color: var(--main-color); /* 제목은 보통 가장 어두운 메인 컬러 사용 */
+    }
+  
+    .title-h3 {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-bold);
+      font-size: clamp(1.375rem, 2vw + 0.8rem, 1.75rem); /* 22px ~ 28px */
+      line-height: var(--line-height-subheading);
+      color: var(--main-color);
+    }
+  
+    .title-h4 {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-regular);
+      font-size: clamp(1.375rem, 2vw + 0.8rem, 1.75rem); /* 22px ~ 28px */
+      line-height: var(--line-height-subheading);
+      color: var(--main-color);
+    }
+  
+    .text-body {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-regular);
+      font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem); /* 16px ~ 20px */
+      line-height: var(--line-height-body);
+      color: var(--main-font); /* 본문용 메인 폰트 컬러 */
+    }
+  
+    .text-caption {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-regular);
+      font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem); /* 14px ~ 16px */
+      line-height: var(--line-height-body);
+      color: var(--gray-font); /* 캡션용 회색 폰트 컬러 적용 */
+    }
+  
+    /* 텍스트 굵기 유틸리티 */
+    .font-regular { font-weight: var(--weight-regular); }
+    .font-semibold { font-weight: var(--weight-semibold); }
+    .font-bold { font-weight: var(--weight-bold); }
+  
+    /* ---------------------------------
+       Spacing (Padding & Margin)
+    --------------------------------- */
+    /* Padding */
+    .pd-20 { padding: 20px; }
+    .pd-section { padding: 38px 60px; }
+  
+    /* Margin Bottom */
+    .mb-20 { margin-bottom: 20px; }
+    .mb-40 { margin-bottom: 40px; }
+    .mb-70 { margin-bottom: 70px; }
+    .mb-200 { margin-bottom: 200px; }
+  
+    /* ---------------------------------
+       Color Utilities (텍스트 & 배경색)
+    --------------------------------- */
+    /* 텍스트 컬러 지정이 명시적으로 필요할 때 사용 */
+    .text-gray-font { color: var(--gray-font); }
+    .text-main-font { color: var(--main-font); }
+    .text-point-green { color: var(--point-green); }
+    .text-point-blue { color: var(--point-blue); }
+    .text-main-color { color: var(--main-color); }
+  
+    /* 배경색 지정이 필요할 때 사용 */
+    .bg-point-green { background-color: var(--point-green); }
+    .bg-point-blue { background-color: var(--point-blue); }
+    .bg-main-color { background-color: var(--main-color); }
+  }
+
+
+  /* ==========================================
+   1. BASE: 글로벌 디자인 토큰 (변수) 추가
+========================================== */
+@layer base {
+    :root {
+      /* ... (기존 색상, 폰트 변수들 유지) ... */
+  
+      /* 📐 Grid & Layout System */
+      --layout-max-width: 1140px;
+      --layout-padding: 30px; /* 좌우 안전 여백 */
+      
+      --grid-columns: 12;
+      --grid-gutter: 24px;
+    }
+  }
+  
+  /* ==========================================
+     2. UTILITIES: 레이아웃 및 그리드 클래스
+  ========================================== */
+  @layer utilities {
+    
+    /* 1. 중앙 정렬 컨테이너 (웹사이트의 전체 폭을 잡아주는 래퍼) */
+    .container {
+      width: 100%;
+      /* 양쪽 30px 여백을 포함한 최대 너비 계산 */
+      max-width: calc(var(--layout-max-width) + (var(--layout-padding) * 2));
+      /* margin-left: auto, margin-right: auto 의 최신 논리적 속성(Logical Properties) */
+      margin-inline: auto; 
+      /* padding-left, padding-right 최신 속성 */
+      padding-inline: var(--layout-padding); 
+    }
+  
+    /* 2. CSS Grid 부모 클래스 */
+    .grid-system {
+      display: grid;
+      /* 12개의 열을 1fr(남은 공간의 동일한 비율)로 나눔 */
+      grid-template-columns: repeat(var(--grid-columns), 1fr);
+      gap: var(--grid-gutter); /* 24px 간격 */
+    }
+  
+    /* 3. 자식 요소가 몇 칸을 차지할지 정하는 유틸리티 (필요한 만큼 추가) */
+    .col-span-1 { grid-column: span 1; }
+    .col-span-2 { grid-column: span 2; }
+    .col-span-3 { grid-column: span 3; }
+    .col-span-4 { grid-column: span 4; }
+    .col-span-6 { grid-column: span 6; }   /* 절반 (50%) 차지 */
+    .col-span-12 { grid-column: span 12; } /* 전체 (100%) 차지 */
+    
+    /* 반응형 (모바일에서는 모든 요소가 1칸씩(전체 너비) 차지하도록 덮어쓰기) */
+    @media (max-width: 768px) {
+      .grid-system {
+        grid-template-columns: 1fr; /* 모바일은 1단 그리드로 강제 전환 */
+      }
+      /* 모바일에서는 span 유틸리티 무효화 */
+      [class*="col-span-"] {
+        grid-column: span 1 / span 1;
+      }
+    }
+  }

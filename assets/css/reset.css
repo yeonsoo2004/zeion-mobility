@@ -1,0 +1,68 @@
+/* 
+  Modern CSS Reset (2026 Best Practice)
+  CSS Cascade Layers를 활용하여 리셋 스타일의 우선순위를 최하단으로 격리합니다.
+*/
+@layer reset {
+    /* 1. Box Model & 기본 여백 초기화 */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+  
+    /* 2. 모바일/웹 타이포그래피 최적화 및 텍스트 렌더링 개선 */
+    html {
+      -webkit-text-size-adjust: 100%; /* 모바일 가로 모드 텍스트 뻥튀기 방지 */
+      text-size-adjust: 100%;
+      word-break: keep-all; /* 한국어 줄바꿈 최적화 (단어 단위로 끊어짐) */
+      overflow-wrap: break-word; /* 긴 영문/URL이 영역을 벗어나지 않도록 방지 */
+    }
+  
+    body {
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased; /* Mac, iOS 폰트 부드럽게 렌더링 */
+      -moz-osx-font-smoothing: grayscale;
+    }
+  
+    /* 3. 미디어 요소 반응형 기본 설정 (레이아웃 깨짐 방지) */
+    img, picture, video, canvas, svg {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  
+    /* 4. 시맨틱 태그 및 리스트 초기화 */
+    ul, ol, menu, summary {
+      list-style: none;
+    }
+  
+    /* 5. 폼 요소 타이포그래피 상속 (브라우저 기본 스타일 덮어쓰기) */
+    input, button, textarea, select {
+      font: inherit;
+      color: inherit;
+    }
+  
+    /* 버튼 기본 스타일 제거 */
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  
+    /* 6. a 태그 초기화 */
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  
+    /* 7. 접근성(A11y) 고려 - 사용자 기기 설정 존중 (GSAP 등 애니메이션 작업 시 필수) */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  }

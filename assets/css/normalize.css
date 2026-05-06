@@ -1,0 +1,71 @@
+/* 
+  Modern Normalize (2026 Best Practice)
+  브라우저 간 렌더링 차이 교정 및 유용한 기본값 통일
+*/
+@layer normalize {
+    /* 1. 기본 문서(Document) 설정 */
+    html {
+      /* 시스템 폰트 스택 적용: OS별 가장 자연스럽고 가독성 높은 폰트 강제 */
+      font-family: 
+        Pretendard, 
+        -apple-system, 
+        BlinkMacSystemFont, 
+        "Segoe UI", 
+        Roboto, 
+        "Helvetica Neue", 
+        Arial, 
+        sans-serif;
+      line-height: 1.5; /* 브라우저별 다른 줄간격 통일 */
+      tab-size: 4; /* 탭 간격 일관성 유지 */
+    }
+  
+    /* 2. 텍스트 시맨틱(Text-level semantics) 교정 */
+    b,
+    strong {
+      font-weight: bolder; /* 브라우저마다 굵기 기준이 다른 것 통일 */
+    }
+  
+    code,
+    kbd,
+    samp,
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 1em; /* 코드 블록의 폰트 사이즈 비일관성 해결 */
+    }
+  
+    small {
+      font-size: 80%;
+    }
+  
+    /* 3. 폼(Forms) 요소 크로스 브라우징 교정 */
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+      font-family: inherit; /* 폼 요소가 부모 폰트를 따라가지 않는 브라우저 버그 수정 */
+      font-size: 100%;
+      line-height: 1.15;
+      margin: 0; /* Safari에서 margin이 생기는 현상 제거 */
+    }
+  
+    /* Safari에서 검색 input 태그의 둥근 모서리 및 기본 디자인 제거 */
+    input[type="search"] {
+      -webkit-appearance: textfield; 
+      outline-offset: -2px;
+    }
+  
+    /* 4. 대화형 요소 (Interactive) */
+    /* HTML5 기본 태그 속성 교정 */
+    summary {
+      display: list-item; /* Safari에서 summary 태그 화살표 버그 수정 */
+      cursor: pointer;
+    }
+  
+    /* 5. 접근성 시각화 교정 */
+    /* 포커스 아웃라인 일관성 (키보드 탭 이동 시 가시성 확보) */
+    :focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+  }
