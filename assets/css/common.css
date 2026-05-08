@@ -1,3 +1,4 @@
+@import url(font.css);
 /* 
   Modern Design System & Utilities
   디자인 토큰(Figma 등)과 1:1 매칭되는 공통 스타일 시스템
@@ -14,11 +15,19 @@
       --point-green: #00B87A;
       --point-blue: #2563EB;
       --main-color: #050D1A;
+      /* 온다크 UI / 서브텍스트 (ZEION GNB·하단바·피처 탭 등) */
+      --text-white: #ffffff;
+      --text-cool-gray: #e2e8f0;
+      --text-slate-muted: #94a3b8;
+      --text-gray-888: #888888;
+      --text-lnb-item: rgba(226, 232, 240, 0.72);
+      --text-drawer-lnb: rgba(226, 232, 240, 0.9);
   
       /* 🔠 Typography System */
       --font-primary: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
       
       --weight-regular: 400;
+      --weight-medium: 500;
       --weight-semibold: 600;
       --weight-bold: 700;
   
@@ -48,6 +57,17 @@
       line-height: var(--line-height-heading);
       letter-spacing: -0.015em;
       color: var(--main-color); /* 제목은 보통 가장 어두운 메인 컬러 사용 */
+    }
+
+    /* 밝은 배경용: 본문 메인 컬러(#121212)로 제목 색만 교체 */
+    .title-h2--main-font {
+      color: var(--main-font);
+    }
+
+    /* 스탯 헤드라인 등: 행간·자간 보강 */
+    .title-h2--lead {
+      line-height: 1.35;
+      letter-spacing: -0.03em;
     }
   
     .title-h3 {
@@ -84,6 +104,7 @@
   
     /* 텍스트 굵기 유틸리티 */
     .font-regular { font-weight: var(--weight-regular); }
+    .font-medium { font-weight: var(--weight-medium); }
     .font-semibold { font-weight: var(--weight-semibold); }
     .font-bold { font-weight: var(--weight-bold); }
   
@@ -98,7 +119,7 @@
     .mb-20 { margin-bottom: 20px; }
     .mb-40 { margin-bottom: 40px; }
     .mb-70 { margin-bottom: 70px; }
-    .mb-200 { margin-bottom: 200px; }
+    .mb-tb-200 { margin: 200px 0; }
   
     /* ---------------------------------
        Color Utilities (텍스트 & 배경색)
@@ -109,11 +130,175 @@
     .text-point-green { color: var(--point-green); }
     .text-point-blue { color: var(--point-blue); }
     .text-main-color { color: var(--main-color); }
+    .text-white { color: var(--text-white); }
+    .text-cool-gray { color: var(--text-cool-gray); }
+    .text-slate-muted { color: var(--text-slate-muted); }
+    .text-gray-888 { color: var(--text-gray-888); }
+    .text-lnb-item { color: var(--text-lnb-item); }
+    .text-drawer-lnb { color: var(--text-drawer-lnb); }
+
+    /* GNB·드로어 1차 링크 (20px / regular) */
+    .type-nav-20 {
+      font-family: var(--font-primary);
+      font-size: 20px;
+      font-weight: var(--weight-regular);
+      letter-spacing: -0.01em;
+    }
+
+    .type-lnb-17 {
+      font-family: var(--font-primary);
+      font-size: 17px;
+      font-weight: var(--weight-regular);
+      letter-spacing: 0.05em;
+    }
+
+    .type-drawer-lnb-18 {
+      font-family: var(--font-primary);
+      font-size: 18px;
+      font-weight: var(--weight-regular);
+      letter-spacing: 0.05em;
+    }
+
+    /* 메인 모델 섹션: 서브라벨 / 본 제목 */
+    .label-eyebrow-28 {
+      font-family: var(--font-primary);
+      font-size: 28px;
+      font-weight: var(--weight-regular);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--main-font);
+    }
+
+    .heading-main-48 {
+      font-family: var(--font-primary);
+      font-size: 48px;
+      font-weight: var(--weight-bold);
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      color: var(--main-font);
+    }
+
+    /* 피처 탭 */
+    .feature-tab-title {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-bold);
+      font-size: 32px;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-tab-desc {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-regular);
+      font-size: 16px;
+      line-height: 1.65;
+      letter-spacing: -0.01em;
+      color: var(--text-slate-muted);
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    /* 스탯 수치 행 / 설명 */
+    .stat-value-28 {
+      font-family: var(--font-primary);
+      font-size: 28px;
+      line-height: 1.2;
+      color: var(--main-font);
+    }
+
+    /* 스탯 카운터 숫자(520, 3.8 등) 전용 */
+    .stat-counter-70 {
+      font-family: var(--font-primary);
+      font-size: 70px;
+      font-weight: var(--weight-bold);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--main-font);
+    }
+
+    /* 스탯 하단 설명 카피 (고정 20px) */
+    .stat-desc-20 {
+      font-family: var(--font-primary);
+      font-size: 20px;
+      font-weight: var(--weight-regular);
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+      color: var(--main-font);
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 하단 고정 바 카피·버튼 기본 타입 */
+    .type-bottom-20-semibold {
+      font-family: var(--font-primary);
+      font-size: 20px;
+      font-weight: var(--weight-semibold);
+      letter-spacing: -0.01em;
+    }
+
+    /* 퀵 메뉴 텍스트 */
+    .type-quick-menu-18 {
+      font-family: var(--font-primary);
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    /* 조인·CTA 보조 버튼 라벨 */
+    .type-btn-16-bold {
+      font-family: var(--font-primary);
+      font-size: 16px;
+      font-weight: var(--weight-bold);
+      letter-spacing: -0.01em;
+    }
+
+    @media (max-width: 768px) {
+      .type-btn-16-bold {
+        font-size: 15px;
+      }
+    }
+
+    /* ESG 비디오 섹션 텍스트 */
+    .type-esg-28 {
+      font-family: var(--font-primary);
+      font-size: 28px;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    .type-esg-20 {
+      font-family: var(--font-primary);
+      font-size: 20px;
+      line-height: 1.55;
+      letter-spacing: -0.02em;
+    }
+
+    /* News 섹션 타이포 */
+    .type-news-title-32 {
+      font-family: var(--font-primary);
+      font-size: 32px;
+      letter-spacing: -0.02em;
+    }
+
+    .type-card-title-20 {
+      font-family: var(--font-primary);
+      font-size: 20px;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    .type-card-date-16 {
+      font-family: var(--font-primary);
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
   
     /* 배경색 지정이 필요할 때 사용 */
     .bg-point-green { background-color: var(--point-green); }
     .bg-point-blue { background-color: var(--point-blue); }
     .bg-main-color { background-color: var(--main-color); }
+    .bg-surface-white { background-color: var(--text-white); }
   }
 
 

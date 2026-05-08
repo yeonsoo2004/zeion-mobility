@@ -1,0 +1,15 @@
+/* 1. 폰트 불러오기 (CSS 파일 최상단에 작성) */
+@font-face {
+  font-family: '문막초 달반체';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('문막초 달반체'), local('문막초 달반체'), url('../font/______-400.woff2') format('woff2');
+}
+
+.font-new {
+  font-family: '문막초 달반체';
+  font-size: 50px;
+  color: white;
+}
+
