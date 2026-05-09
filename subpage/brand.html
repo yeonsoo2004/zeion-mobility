@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEION</title>
+    <script src="https://kit.fontawesome.com/b9593720fc.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" as="style" crossorigin
+        href="../assets/css/libs/pretendard.min.css" />
+    <!-- reset.css -->
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <!-- normalize.css -->
+    <link rel="stylesheet" href="../assets/css/normalize.css">
+    <!-- main page -->
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/sub.css" />
+    <!-- Swiper -->
+    <link rel="stylesheet" href="../assets/css/libs/swiper-bundle.min.css">
+</head>
+
+<body>
+    <header class="site-header" role="banner">
+        <div class="inner site-header__inner">
+            <a href="../index.html" class="site-header__brand" aria-label="ZEION 홈">
+                <img src="../assets/images/logo.png" class="site-header__logo-img" alt="">
+            </a>
+            <nav class="site-header__nav site-header__nav--desktop" aria-label="주요 메뉴">
+                <ul class="site-header__menu">
+                    <li class="site-header__item"><a class="type-nav-20 text-white" href="./brand.html">브랜드</a></li>
+                    <li class="site-header__item site-header__item--models">
+                        <div class="site-header__dropdown">
+                            <a class="type-nav-20 text-white" href="#">모델</a>
+                        </div>
+                    </li>
+                    <li class="site-header__item"><a class="type-nav-20 text-white" href="#">사전예약</a></li>
+                    <li class="site-header__item"><a class="type-nav-20 text-white" href="#">ESG</a></li>
+                    <li class="site-header__item"><a class="type-nav-20 text-white" href="#">고객지원</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="site-header__navi-car site-header__navi-car--desktop" aria-label="차량 네비게이션">
+                <img src="../assets/images/icon/navi-car.svg" width="28" height="28" alt="" decoding="async">
+            </a>
+            <button type="button" class="site-header__menu-toggle text-white" aria-expanded="false"
+                aria-controls="mobile-drawer" aria-label="메뉴 열기">
+                <i class="fa-solid fa-bars site-header__menu-icon site-header__menu-icon--bars" aria-hidden="true"></i>
+                <i class="fa-solid fa-xmark site-header__menu-icon site-header__menu-icon--close" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="site-header__subnav" id="site-header-subnav-models" aria-hidden="true">
+            <div class="inner site-header__subnav-inner">
+                <div class="lnb" role="region" aria-label="모델 하위 메뉴">
+                    <ul class="lnb__list">
+                        <li class="lnb__item"><a class="lnb__link type-lnb-17 text-lnb-item" href="#">ZE-1</a></li>
+                        <li class="lnb__item"><a class="lnb__link type-lnb-17 text-lnb-item" href="#">ZE-X</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-drawer" class="mobile-drawer" aria-hidden="true">
+            <div class="mobile-drawer__backdrop" tabindex="-1" aria-hidden="true"></div>
+            <div class="mobile-drawer__panel" role="dialog" aria-modal="true" aria-label="모바일 메뉴">
+                <nav class="mobile-drawer__nav" aria-label="모바일 주요 메뉴">
+                    <ul class="mobile-drawer__list">
+                        <li class="mobile-drawer__item"><a class="mobile-drawer__link type-nav-20 text-white" href="./brand.html">브랜드</a></li>
+                        <li class="mobile-drawer__item mobile-drawer__item--accordion">
+                            <button type="button" class="mobile-drawer__accordion-btn type-nav-20 text-white" aria-expanded="false"
+                                aria-controls="mobile-lnb-models" id="mobile-models-trigger">
+                                <span>모델</span>
+                                <i class="fa-solid fa-chevron-down mobile-drawer__chevron" aria-hidden="true"></i>
+                            </button>
+                            <ul class="mobile-drawer__lnb" id="mobile-lnb-models" role="list">
+                                <li class="mobile-drawer__lnb-item"><a class="mobile-drawer__lnb-link type-drawer-lnb-18 text-drawer-lnb" href="#">ZE-1</a>
+                                </li>
+                                <li class="mobile-drawer__lnb-item"><a class="mobile-drawer__lnb-link type-drawer-lnb-18 text-drawer-lnb" href="#">ZE-X</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mobile-drawer__item"><a class="mobile-drawer__link type-nav-20 text-white" href="#">사전예약</a></li>
+                        <li class="mobile-drawer__item"><a class="mobile-drawer__link type-nav-20 text-white" href="#">ESG</a></li>
+                        <li class="mobile-drawer__item"><a class="mobile-drawer__link type-nav-20 text-white" href="#">고객지원</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+  <main class="sub-main">
+    <section class="sub-kv-section" aria-label="브랜드 키 비주얼">
+      <div class="kv-bg-img" style="background-image: url('../assets/images/brand-kv.png');" aria-hidden="true"></div>
+      <div class="kv-overlay" aria-hidden="true"></div>
+      <div class="inner">
+        <div class="kv-content">
+          <nav class="breadcrumb" aria-label="브레드크럼">
+            <a href="../index.html">HOME</a>
+            <span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>
+            <span class="breadcrumb__current">브랜드</span>
+          </nav>
+          
+          <p class="kv-desc">
+            ZEION은 단순한 이동 수단을 넘어, <br>첨단 기술과 지속 가능한 환경이 공존하는 미래의 모빌리티 라이프를 설계합니다.
+          </p>
+          
+          <h2 class="kv-title">새로운 차원의 이동,<br>그 이상의 가치</h2>
+        </div>
+      </div>
+    </section>
+    <section class="brand-about-section" aria-label="브랜드 소개">
+      <div class="inner">
+        <div class="about-content">
+          <div class="about-title-group anim-rise">
+            <h2 class="about-title">혁신을 향한<br>멈추지 않는 여정</h2>
+          </div>
+
+          <div class="about-desc-group anim-rise">
+            <p class="about-desc">
+              2021년 첫걸음을 내디딘 이후, 우리는 항상 '최고의 품질'과 '타협하지 않는 혁신'을 추구해 왔습니다.<br>
+              도심의 일상부터 아웃도어 어드벤처까지, ZEION은 고객의 모든 순간에 완벽하게 스며드는 드라이빙 경험을 제공합니다.
+            </p>
+          </div>
+
+          <div class="about-stats-group anim-rise">
+            <ul class="about-stats-list">
+              <li class="stat-item">
+                <span class="stat-value">2021년</span>
+                <span class="stat-label">브랜드 설립</span>
+              </li>
+              <li class="stat-item">
+                <span class="stat-value">2개 모델</span>
+                <span class="stat-label">라인업</span>
+              </li>
+              <li class="stat-item">
+                <span class="stat-value">800+</span>
+                <span class="stat-label">A/S 거점</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="brand-philosophy-section" aria-label="브랜드 철학">
+      <div class="bg-letter-z" aria-hidden="true">Z</div>
+
+      <div class="inner">
+        <div class="philosophy-header anim-rise">
+          <span class="sub-title">Our Philosophy</span>
+          <h2 class="main-title">ZEION이 지키는 3가지 핵심 가치</h2>
+        </div>
+
+        <div class="philosophy-cards">
+          <div class="card-item anim-rise">
+            <div class="card-icon">
+              <img src="../assets/images/icon/green-img-1.svg" width="48" height="48" alt="" decoding="async">
+            </div>
+            <h3 class="card-title">Tech-Driven</h3>
+            <p class="card-desc">자체 개발한 고효율 모터와<br>배터리 시스템으로 한계를 뛰어넘는<br>퍼포먼스를 구현합니다.</p>
+          </div>
+
+          <div class="card-item anim-rise">
+            <div class="card-icon">
+              <img src="../assets/images/icon/green-img-2.svg" width="48" height="48" alt="" decoding="async">
+            </div>
+            <h3 class="card-title">Zero Green</h3>
+            <p class="card-desc">재활용 소재의 적극적인 도입과 탄소 배<br>출 제로화 노력으로 다음 세대를 위한<br>환경을 보호합니다.</p>
+          </div>
+
+          <div class="card-item anim-rise">
+            <div class="card-icon">
+              <img src="../assets/images/icon/green-img-3.svg" width="48" height="48" alt="" decoding="async">
+            </div>
+            <h3 class="card-title">Uncompromising</h3>
+            <p class="card-desc">ADAS 시스템과 견고한 차체 설계로 탑<br>승자의 안전과 프리미엄한 승차감을 최<br>우선으로 생각합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="brand-history-section" aria-label="브랜드 연혁">
+      <div class="history-pin-wrapper">
+        <div id="animImageBox">
+          <div class="img-overlay" aria-hidden="true"></div>
+          <img src="../assets/images/history-1.png" alt="2025 연혁" class="hist-img active" data-index="0" width="800" height="600" decoding="async">
+          <img src="../assets/images/history-2.png" alt="2024 연혁" class="hist-img" data-index="1" width="800" height="600" decoding="async">
+          <img src="../assets/images/history-3.png" alt="2023 연혁" class="hist-img" data-index="2" width="800" height="600" decoding="async">
+          <img src="../assets/images/history-4.png" alt="2021 연혁" class="hist-img" data-index="3" width="800" height="600" decoding="async">
+        </div>
+
+        <div class="inner history-grid">
+          <div class="history-text-area">
+            <h2 class="history-title">History</h2>
+            <ul class="timeline-list">
+              <li class="timeline-item active" data-index="0">
+                <div class="dot-wrapper" aria-hidden="true"><div class="dot-inner"></div></div>
+                <div class="content">
+                  <div class="year">2025</div>
+                  <p class="desc">ZE-X (Terra) 중형 전동 SUV 출시<br>자연과 도심을 아우르는 본격적인 모델 라인업 확장</p>
+                </div>
+              </li>
+              <li class="timeline-item" data-index="1">
+                <div class="dot-wrapper" aria-hidden="true"><div class="dot-inner"></div></div>
+                <div class="content">
+                  <div class="year">2024</div>
+                  <p class="desc">도심형 프리미엄 세단 ZE-1 (Luna) 런칭<br>ZEION 첫 번째 승용 전기차 사전예약 및 판매 개시</p>
+                </div>
+              </li>
+              <li class="timeline-item" data-index="2">
+                <div class="dot-wrapper" aria-hidden="true"><div class="dot-inner"></div></div>
+                <div class="content">
+                  <div class="year">2023</div>
+                  <p class="desc">R&amp;D 센터 설립 / 시제품 공개<br>경기도 화성 연구개발 센터 완공</p>
+                </div>
+              </li>
+              <li class="timeline-item" data-index="3">
+                <div class="dot-wrapper" aria-hidden="true"><div class="dot-inner"></div></div>
+                <div class="content">
+                  <div class="year">2021</div>
+                  <p class="desc">한국형 전기차 브랜드 ZEION 법인 설립<br>미래 모빌리티 시장을 향한 비전 선포</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div id="visualTarget" class="history-visual-area" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+    <section class="brand-media-section" aria-label="브랜드 미디어">
+      <div class="inner">
+        <h2 class="section-title">미디어</h2>
+
+        <div class="media-tab-wrapper">
+          <ul class="media-tabs" role="tablist" aria-label="미디어 유형 필터">
+            <li class="tab-item active" data-filter="all" role="presentation">
+              <button type="button" role="tab" aria-selected="true">전체</button>
+            </li>
+            <li class="tab-item" data-filter="video" role="presentation">
+              <button type="button" role="tab" aria-selected="false">영상</button>
+            </li>
+            <li class="tab-item" data-filter="image" role="presentation">
+              <button type="button" role="tab" aria-selected="false">이미지</button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="media-grid">
+            <div class="media-item" data-type="video">
+              <div class="item-thumb">
+                <video src="../assets/images/media-6.mp4" autoplay loop muted playsinline></video>
+                <div class="play-icon" aria-hidden="true"><i class="fa-solid fa-play"></i></div>
+              </div>
+            </div>
+            
+            <div class="media-item" data-type="image">
+              <div class="item-thumb">
+                <img src="../assets/images/media-1.png" alt="갤러리 이미지 1" loading="lazy" decoding="async">
+              </div>
+            </div>
+
+            <div class="media-item" data-type="image">
+              <div class="item-thumb">
+                <img src="../assets/images/media-2.png" alt="갤러리 이미지 2" loading="lazy" decoding="async">
+              </div>
+            </div>
+
+            <div class="media-item" data-type="image">
+              <div class="item-thumb">
+                <img src="../assets/images/media-3.png" alt="갤러리 이미지 3" loading="lazy" decoding="async">
+              </div>
+            </div>
+
+            <div class="media-item" data-type="image">
+              <div class="item-thumb">
+                <img src="../assets/images/media-4.png" alt="갤러리 이미지 4" loading="lazy" decoding="async">
+              </div>
+            </div>
+
+            <div class="media-item" data-type="image">
+              <div class="item-thumb">
+                <img src="../assets/images/media-5.png" alt="갤러리 이미지 5" loading="lazy" decoding="async">
+              </div>
+            </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="영상 재생">
+    <div class="modal-dimmed" tabindex="-1" aria-hidden="true"></div>
+    <div class="modal-video-wrap">
+      <button type="button" class="btn-modal-close" aria-label="닫기">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <video id="modalVideo" src="" controls playsinline></video>
+    </div>
+  </div>
+
+  <footer class="footer" role="contentinfo">
+    <div class="inner footer__inner">
+        <div class="footer__row footer__row--top">
+            <h2 class="footer-logo">ZEION</h2>
+            <div class="footer-controls">
+                <div class="sns-list">
+                    <a href="#" class="sns-list__link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                        <img src="../assets/images/icon/sns-insta.svg" width="20" height="20" alt="">
+                    </a>
+                    <a href="#" class="sns-list__link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                        <img src="../assets/images/icon/sns-face.svg" width="20" height="20" alt="">
+                    </a>
+                    <a href="#" class="sns-list__link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                        <img src="../assets/images/icon/sns-you.svg" width="20" height="20" alt="">
+                    </a>
+                </div>
+                <button type="button" class="btn-catalog">
+                    카탈로그 다운로드
+                    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="footer__row footer__row--links">
+            <div class="footer-links">
+                <a href="#">이용약관</a>
+                <span class="footer-links__sep" aria-hidden="true">|</span>
+                <a href="#">개인정보 처리방침</a>
+            </div>
+        </div>
+        <div class="footer__row footer__row--bottom">
+            <div class="footer-info">
+                <p>우편번호 : 06236, 서울특별시 강남구 테헤란로 123 ZEION 모빌리티 타워</p>
+                <p>Copyright: COPYRIGHT © 2026 ZEION MOTORS CO., LTD. ALL RIGHTS RESERVED.</p>
+            </div>
+            <p class="footer-contact">Contact: support@zeion.com</p>
+        </div>
+    </div>
+</footer>
+    <script src="../assets/js/libs/gsap.min.js"></script>
+    <script src="../assets/js/libs/ScrollTrigger.min.js"></script>
+    <script src="../assets/js/libs/ScrollSmoother.min.js"></script>
+    <script src="../assets/js/libs/swiper-bundle.min.js"></script>
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/sub.js"></script>
+</body>
+
+</html>

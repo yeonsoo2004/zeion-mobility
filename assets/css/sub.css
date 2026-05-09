@@ -1,0 +1,1177 @@
+/* ==========================================
+   Subpages — Brand KV & header overlap
+   Depends on style.css (common.css + .inner + .site-header)
+========================================== */
+
+/* [1] 서브 메인: KV가 뷰포트 기준으로 쌓이도록 */
+.sub-main {
+  padding: 0;
+}
+
+/* 헤더: style.css의 .site-header (position: absolute, z-index: 50)가 KV 위에 투명 겹침 */
+
+/* [2] KV 섹션 — 배경 레이어(.kv-bg-img) + 딤(.kv-overlay) + 콘텐츠(.inner) */
+.sub-kv-section {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  min-height: 800px;
+  box-sizing: border-box;
+  background-color: var(--main-color);
+}
+
+.kv-bg-img {
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  transform-origin: center center;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.kv-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 13, 26, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.sub-kv-section .inner {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100%;
+  padding-top: 140px;
+  padding-bottom: 64px;
+  box-sizing: border-box;
+}
+
+/* [3] KV 텍스트 */
+.kv-content {
+  width: 100%;
+  max-width: 100%;
+  text-align: left;
+}
+
+.breadcrumb {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-cool-gray);
+  margin-bottom: 50px;
+}
+
+.breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  color: var(--text-white);
+}
+
+.breadcrumb a:focus-visible {
+  outline: 2px solid rgba(226, 232, 240, 0.45);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.kv-desc {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-cool-gray);
+  line-height: 1.6;
+  margin: 0 0 30px;
+  padding: 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.kv-title {
+  font-family: var(--font-primary);
+  margin: 0;
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--text-white);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+/* ==========================================
+   Brand — About section (KV 하단)
+========================================== */
+
+.brand-about-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  height: 100vh;
+  min-height: 36rem;
+  box-sizing: border-box;
+  background-color: var(--main-color);
+  background-image: url("../images/brand-about.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center right;
+}
+
+.brand-about-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(5, 13, 26, 0);
+  pointer-events: none;
+}
+
+.brand-about-section .inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-block: 12.5rem;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 65%;
+  gap: 0;
+  word-break: keep-all;
+}
+
+.about-title-group .about-title {
+  margin: 0;
+}
+
+.about-title {
+  font-family: var(--font-primary);
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--text-white);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.about-desc {
+  font-family: var(--font-primary);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-cool-gray);
+  line-height: 1.6;
+  margin: 40px 0 0;
+  padding: 0;
+  overflow-wrap: break-word;
+}
+
+.about-stats-list {
+  list-style: none;
+  margin: 100px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 80px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.stat-value {
+  font-family: var(--font-primary);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-white);
+  line-height: 1.2;
+  display: block;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-family: var(--font-primary);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-slate-muted);
+  line-height: 1.4;
+  display: block;
+}
+
+/* ==========================================
+   Brand — Philosophy section (About 하단)
+========================================== */
+
+.brand-philosophy-section {
+  position: relative;
+  overflow: hidden;
+  padding-block: 12.5rem;
+  padding-inline: 0;
+  background-color: var(--text-white);
+  box-sizing: border-box;
+}
+
+.brand-philosophy-section .inner {
+  position: relative;
+  z-index: 10;
+}
+
+.bg-letter-z {
+  position: absolute;
+  right: -5%;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+  font-family: var(--font-primary);
+  font-weight: 800;
+  font-size: 900px;
+  opacity: 70%;
+  line-height: 0.8;
+  user-select: none;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom left,
+    color-mix(in srgb, var(--point-blue) 10%, transparent) 0%,
+    color-mix(in srgb, var(--point-blue) 60%, transparent) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.philosophy-header {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 6vw, 5rem);
+  position: relative;
+}
+
+.brand-philosophy-section .philosophy-header .sub-title {
+  display: block;
+  margin-bottom: 1rem;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: var(--weight-regular);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--main-font);
+}
+
+.brand-philosophy-section .philosophy-header .main-title {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-heading);
+  letter-spacing: -0.02em;
+  color: var(--main-font);
+}
+
+.philosophy-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  position: relative;
+}
+
+.card-item {
+  background-color: var(--point-green);
+  padding: clamp(2.5rem, 5vw, 3.75rem) clamp(1.5rem, 4vw, 2.5rem);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-white);
+  box-sizing: border-box;
+  border-radius: 0;
+  transition:
+    border-radius 0.4s ease,
+    transform 0.4s ease;
+}
+
+.brand-philosophy-section .card-item:hover {
+  border-radius: 50px;
+  transform: translateY(-10px);
+}
+
+.card-icon {
+  width: 5rem;
+  height: 5rem;
+  background-color: var(--text-white);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: clamp(1.25rem, 3vw, 1.875rem);
+  flex-shrink: 0;
+}
+
+.card-icon img {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+}
+
+.card-title {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-primary);
+  font-size: 1.75rem;
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-subheading);
+  color: var(--text-white);
+}
+
+.card-desc {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: var(--weight-regular);
+  line-height: 1.6;
+  color: var(--text-white);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* ==========================================
+   Brand — History (pin + #animImageBox → #visualTarget)
+========================================== */
+
+.brand-history-section {
+  position: relative;
+  background-color: var(--text-white);
+  box-sizing: border-box;
+}
+
+.history-pin-wrapper {
+  position: relative;
+  width: 100vw;
+  max-width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: var(--text-white);
+  box-sizing: border-box;
+}
+
+#animImageBox {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  transform-origin: center center;
+  border-radius: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+#animImageBox .img-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 1;
+  background: color-mix(in srgb, var(--main-color) 30%, transparent);
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.brand-history-section .hist-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.brand-history-section .hist-img.active {
+  opacity: 1;
+}
+
+.history-grid {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.history-text-area {
+  width: 45%;
+  flex-shrink: 0;
+  opacity: 0;
+  position: relative;
+}
+
+.history-title {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-heading);
+  letter-spacing: -0.02em;
+  color: var(--main-font);
+}
+
+.timeline-list {
+  list-style: none;
+  margin: 0;
+  position: relative;
+  padding-left: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+/* 24px 링 중심(12px) = 4px 선 중심(2px) → left: 10px */
+.timeline-list::before {
+  content: "";
+  position: absolute;
+  top: 0.75rem;
+  bottom: 0;
+  left: 0.625rem;
+  width: 0.25rem;
+  background-color: var(--text-cool-gray);
+  z-index: 1;
+  border-radius: 0.125rem;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 3.75rem;
+  padding-left: 0;
+  color: var(--text-gray-888);
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-item .dot-wrapper {
+  position: absolute;
+  left: -2.5rem;
+  top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--text-cool-gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  box-sizing: border-box;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.timeline-item .dot-inner {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--text-slate-muted);
+  flex-shrink: 0;
+  transition: background-color 0.3s ease;
+}
+
+.timeline-item .year {
+  font-family: var(--font-primary);
+  font-size: 1.25rem;
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-subheading);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.timeline-item .desc {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: var(--weight-regular);
+  line-height: 1.6;
+  transition: color 0.3s ease;
+}
+
+.timeline-item.active {
+  color: var(--main-font);
+}
+
+.timeline-item.active .year,
+.timeline-item.active .desc {
+  color: var(--main-font);
+}
+
+.timeline-item.active .dot-wrapper {
+  background-color: color-mix(in srgb, var(--point-blue) 20%, transparent);
+  transform: scale(1.04);
+}
+
+.timeline-item.active .dot-inner {
+  background-color: var(--point-blue);
+}
+
+#visualTarget.history-visual-area,
+.history-visual-area {
+  width: 50%;
+  height: 500px;
+  min-height: 500px;
+  position: relative;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.brand-history-section--reduced .history-text-area {
+  opacity: 1;
+}
+
+.brand-history-section--reduced #animImageBox .img-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ==========================================
+   Brand — Media gallery (tabs + grid)
+========================================== */
+
+.brand-media-section {
+  padding-block: 12.5rem;
+  padding-inline: 0;
+  background-color: var(--main-color);
+  box-sizing: border-box;
+}
+
+.brand-media-section .section-title {
+  margin: 0 auto 3.125rem;
+  font-family: var(--font-primary);
+  font-size: 2.5rem;
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-heading);
+  letter-spacing: -0.02em;
+  color: var(--text-white);
+  text-align: center;
+}
+
+.media-tab-wrapper {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.media-tabs {
+  display: inline-flex;
+  align-items: stretch;
+  list-style: none;
+  margin: 0 auto 3.75rem;
+  padding: 0.3125rem;
+  background-color: var(--text-white);
+  border-radius: 0.625rem;
+  box-sizing: border-box;
+  gap: 0;
+}
+
+.media-tabs .tab-item {
+  margin: 0;
+  padding: 0;
+}
+
+.media-tabs .tab-item button {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0.75rem 2.5rem;
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-body);
+  color: var(--text-gray-888);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.media-tabs .tab-item.active button {
+  background-color: color-mix(in srgb, var(--text-cool-gray) 42%, var(--text-white));
+  color: var(--main-font);
+}
+
+.media-tabs .tab-item button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--point-blue) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.media-item {
+  border-radius: 1.25rem;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: color-mix(in srgb, var(--text-white) 6%, var(--main-color));
+  cursor: pointer;
+  box-sizing: border-box;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+.media-item .item-thumb {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.media-item .item-thumb img,
+.media-item .item-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.media-item:hover .item-thumb img,
+.media-item:hover .item-thumb video {
+  transform: scale(1.05);
+}
+
+.media-item .play-icon {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.media-item .play-icon::before {
+  content: "";
+  position: absolute;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--main-color) 52%, transparent);
+}
+
+.media-item .play-icon .fa-solid {
+  position: relative;
+  z-index: 1;
+  color: var(--text-white);
+  font-size: 1.125rem;
+  margin-left: 0.1875rem;
+}
+
+/* ---------- Video modal (brand media) ---------- */
+.video-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.video-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-dimmed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+}
+
+.modal-video-wrap {
+  position: relative;
+  width: 80%;
+  max-width: 1200px;
+  aspect-ratio: 16 / 9;
+  z-index: 10000;
+  transform: translateY(30px);
+  transition: transform 0.3s ease;
+}
+
+.video-modal.active .modal-video-wrap {
+  transform: translateY(0);
+}
+
+.video-modal #modalVideo {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  outline: none;
+  border-radius: 16px;
+  display: block;
+  object-fit: contain;
+}
+
+.btn-modal-close {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-white);
+  font-size: 40px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding: 0.25rem;
+}
+
+.btn-modal-close:hover {
+  transform: rotate(90deg);
+}
+
+/* =======================================================
+   [ 반응형 미디어 쿼리 (Responsive Media Queries) ]
+   Desktop First — 섹션별 규칙 통합
+======================================================= */
+
+@media screen and (max-width: 1280px) {
+  .kv-title {
+    font-size: clamp(2.5rem, 3.2vw + 1.25rem, 3.25rem);
+  }
+
+  .about-title {
+    font-size: clamp(2.5rem, 3.2vw + 1.25rem, 3.25rem);
+  }
+
+  .brand-media-section .section-title {
+    font-size: clamp(2rem, 2vw + 1.25rem, 2.375rem);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .sub-kv-section .inner {
+    padding-top: 8rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .breadcrumb {
+    margin-bottom: 2.5rem;
+  }
+
+  .kv-desc {
+    font-size: 0.9375rem;
+    line-height: 1.58;
+    margin: 0 0 1.5rem;
+    padding: 0;
+  }
+
+  .kv-title {
+    font-size: 2.5rem;
+  }
+
+  .brand-about-section::before {
+    background: rgba(5, 13, 26, 0.58);
+  }
+
+  .brand-about-section {
+    background-position: 92% center;
+  }
+
+  .about-content {
+    max-width: 72%;
+  }
+
+  .about-stats-list {
+    gap: 3.5rem;
+    margin-top: 4.5rem;
+  }
+
+  .about-title {
+    font-size: 2.75rem;
+  }
+
+  .about-desc {
+    font-size: 1.0625rem;
+    margin-top: 2rem;
+  }
+
+  .philosophy-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bg-letter-z {
+    font-size: clamp(12rem, 22vw, 28rem);
+    right: -8%;
+  }
+
+  .brand-philosophy-section .philosophy-header .main-title {
+    font-size: clamp(1.625rem, 2.5vw + 0.85rem, 2.35rem);
+  }
+
+  .history-grid {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .history-text-area {
+    width: 100%;
+  }
+
+  #visualTarget.history-visual-area,
+  .history-visual-area {
+    width: 100%;
+    height: min(50vh, 26.25rem);
+    min-height: min(50vh, 26.25rem);
+  }
+
+  .brand-media-section {
+    padding-block: clamp(6rem, 12vw, 12.5rem);
+  }
+
+  .media-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .brand-about-section .inner,
+  .brand-philosophy-section,
+  .brand-media-section {
+    padding-block: 7.5rem;
+  }
+
+  .sub-kv-section {
+    min-height: 45rem;
+  }
+
+  .sub-kv-section .inner {
+    padding-top: 7.5rem;
+    padding-bottom: 3rem;
+    justify-content: center;
+  }
+
+  .breadcrumb {
+    margin-bottom: 2rem;
+    font-size: 0.8125rem;
+  }
+
+  .kv-desc {
+    font-size: 0.9375rem;
+    line-height: 1.58;
+    margin: 0 0 1.375rem;
+    padding: 0 2px;
+  }
+
+  .kv-title {
+    font-size: 2.125rem;
+    line-height: 1.28;
+  }
+
+  .brand-about-section {
+    height: auto;
+    min-height: 100vh;
+    background-position: 100% 40%;
+  }
+
+  .brand-about-section::before {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 13, 26, 0.82) 0%,
+      rgba(5, 13, 26, 0.72) 45%,
+      rgba(5, 13, 26, 0.55) 100%
+    );
+  }
+
+  .about-content {
+    max-width: 100%;
+  }
+
+  .about-title {
+    font-size: 2rem;
+    line-height: 1.22;
+  }
+
+  .about-desc {
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    line-height: 1.62;
+  }
+
+  .about-stats-list {
+    margin-top: 3rem;
+    gap: 1.75rem 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    max-width: 22rem;
+  }
+
+  .stat-item {
+    min-width: 0;
+  }
+
+  .stat-value {
+    font-size: 1.625rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+  }
+
+  .philosophy-header {
+    margin-bottom: 2.5rem;
+    text-align: left;
+  }
+
+  .brand-philosophy-section .philosophy-header .sub-title {
+    margin-bottom: 0.75rem;
+  }
+
+  .brand-philosophy-section .philosophy-header .main-title {
+    font-size: clamp(1.5rem, 4vw + 0.5rem, 2rem);
+  }
+
+  .philosophy-cards {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .card-item {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .bg-letter-z {
+    display: block;
+    font-size: clamp(18rem, 55vw, 31.25rem);
+    line-height: 0.8;
+    right: -15%;
+  }
+
+  .card-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .card-icon img {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .history-grid {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    justify-content: center;
+  }
+
+  .timeline-item {
+    margin-bottom: 2.5rem;
+  }
+
+  .timeline-list {
+    padding-left: 2.25rem;
+    margin-top: 2rem;
+  }
+
+  .timeline-list::before {
+    left: 0.5625rem;
+  }
+
+  .timeline-item .dot-wrapper {
+    left: -2.25rem;
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+
+  .timeline-item .dot-inner {
+    width: 0.625rem;
+    height: 0.625rem;
+  }
+
+  .brand-media-section .section-title {
+    font-size: clamp(1.75rem, 5vw + 0.5rem, 2.5rem);
+    margin-bottom: 2rem;
+  }
+
+  .media-tabs {
+    margin-bottom: 2.5rem;
+    padding: 0.25rem;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .media-tabs .tab-item button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .media-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .modal-video-wrap {
+    width: 92%;
+  }
+
+  .btn-modal-close {
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 10001;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .sub-kv-section {
+    min-height: 40rem;
+  }
+
+  .sub-kv-section .inner {
+    padding-top: 7rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .breadcrumb {
+    margin-bottom: 1.75rem;
+    font-size: 0.75rem;
+  }
+
+  .kv-desc {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    margin: 0 0 1.25rem;
+    padding: 0 4px;
+  }
+
+  .kv-title {
+    font-size: clamp(1.75rem, 7vw, 2rem);
+    line-height: 1.25;
+  }
+
+  .brand-about-section {
+    background-position: 88% 35%;
+  }
+
+  .about-title {
+    font-size: clamp(1.625rem, 6vw, 1.875rem);
+  }
+
+  .about-stats-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: none;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .bg-letter-z {
+    font-size: min(21.875rem, 68vw);
+    right: -18%;
+  }
+
+  .brand-media-section .section-title,
+  .history-title {
+    font-size: clamp(1.625rem, 6vw, 2rem);
+  }
+
+  .brand-philosophy-section .philosophy-header .main-title {
+    font-size: clamp(1.5rem, 5.5vw + 0.35rem, 1.875rem);
+  }
+
+  .media-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-video-wrap {
+    width: 94%;
+  }
+
+  .btn-modal-close {
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-history-section .hist-img,
+  #animImageBox .img-overlay {
+    transition: none;
+  }
+
+  .timeline-item,
+  .timeline-item .dot-wrapper,
+  .timeline-item .dot-inner,
+  .timeline-item .year,
+  .timeline-item .desc {
+    transition: none;
+  }
+
+  .media-item .item-thumb img,
+  .media-item .item-thumb video {
+    transition: none;
+  }
+
+  .media-item:hover .item-thumb img,
+  .media-item:hover .item-thumb video {
+    transform: none;
+  }
+
+  .media-item {
+    will-change: auto;
+  }
+
+  .video-modal,
+  .modal-video-wrap,
+  .btn-modal-close {
+    transition: none;
+  }
+
+  .video-modal.active .modal-video-wrap {
+    transform: none;
+  }
+}
