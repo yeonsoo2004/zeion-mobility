@@ -1,6 +1,7 @@
 /**
  * ZEION — 서브페이지 (브랜드 KV + About + Philosophy + History)
- * - KV: 슬로우 줌, 패럴랙스, Stagger Fade-up
+ * - KV: 브랜드만 줌·패럴랙스 / 모델(luna)은 텍스트 Fade-up만
+ * - Model feature (luna): 각 .feature-item 개별 ScrollTrigger fade+rise
  * - About / Philosophy: ScrollTrigger Rise (stagger)
  * - History: pin-height 스크롤, 이미지 축소 + 타임라인·이미지 동기화 (scrub)
  * - Media: 탭 필터 + GSAP opacity/scale (0.4s)
@@ -16,50 +17,80 @@
 
   var kvSection = document.querySelector(".sub-kv-section");
   var kvBg = document.querySelector(".kv-bg-img");
+  var isModelKv = kvSection && kvSection.classList.contains("model-kv");
 
   if (!reducedMotion && kvSection && kvBg) {
-    gsap.fromTo(
-      kvBg,
-      { scale: 1 },
-      {
-        scale: 1.15,
-        duration: 10,
-        ease: "power1.out",
-      }
-    );
+    /* 모델 KV: 배경에는 GSAP 미적용(정지 이미지). 브랜드 KV만 줌·패럴랙스 */
+    if (!isModelKv) {
+      gsap.fromTo(
+        kvBg,
+        { scale: 1 },
+        {
+          scale: 1.15,
+          duration: 10,
+          ease: "power1.out",
+        }
+      );
 
-    gsap.fromTo(
-      kvBg,
-      { yPercent: 10 },
-      {
-        yPercent: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: kvSection,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
-        },
-      }
-    );
+      gsap.fromTo(
+        kvBg,
+        { yPercent: 10 },
+        {
+          yPercent: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: kvSection,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
+    }
 
-    var kvCopyEls = gsap.utils.toArray(
-      ".sub-kv-section .breadcrumb, .sub-kv-section .kv-desc, .sub-kv-section .kv-title"
-    );
+    var kvCopyEls = isModelKv
+      ? gsap.utils.toArray(
+          ".sub-kv-section.model-kv .breadcrumb, .sub-kv-section.model-kv .model-title-group, .sub-kv-section.model-kv .model-stats-grid"
+        )
+      : gsap.utils.toArray(
+          ".sub-kv-section .breadcrumb, .sub-kv-section .kv-desc, .sub-kv-section .kv-title"
+        );
+
     if (kvCopyEls.length) {
       gsap.fromTo(
         kvCopyEls,
-        { autoAlpha: 0, y: 36 },
+        { autoAlpha: 0, y: 40 },
         {
           autoAlpha: 1,
           y: 0,
           duration: 0.95,
           ease: "power2.out",
-          stagger: 0.14,
+          stagger: isModelKv ? 0.2 : 0.14,
           delay: 0.35,
         }
       );
     }
+  }
+
+  var featureItems = gsap.utils.toArray(
+    ".model-feature-section .feature-item.anim-rise"
+  );
+
+  if (featureItems.length && !reducedMotion) {
+    featureItems.forEach(function (item) {
+      gsap.from(item, {
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power2.out",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: item,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      });
+    });
   }
 
   var aboutSection = document.querySelector(".brand-about-section");

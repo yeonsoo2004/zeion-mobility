@@ -77,6 +77,10 @@
   /** 푸터 진입 시 바를 뷰포트 하단이 아니라 푸터 상단(조인~푸터 사이)에 맞춤 */
   function syncBottomBarDock() {
     if (!bottomBar) return;
+    if (bottomBar.classList.contains("bottom-bar--dock-top")) {
+      bottomBar.style.removeProperty("--bottom-bar-dock");
+      return;
+    }
     var footer = document.querySelector(".footer");
     if (!footer) {
       bottomBar.style.removeProperty("--bottom-bar-dock");
@@ -105,8 +109,25 @@
     }
 
     if (bottomBar) {
-      if (y >= 100) bottomBar.classList.add("scrolled");
-      else bottomBar.classList.remove("scrolled");
+      var modelKv = document.querySelector(".sub-kv-section.model-kv");
+      var lunaBottomDock =
+        bottomBar.classList.contains("bottom-bar--light") && modelKv;
+
+      if (lunaBottomDock) {
+        var kvH = modelKv.offsetHeight || 0;
+        var pastKv = kvH > 0 && y >= kvH - 1;
+        bottomBar.classList.toggle("bottom-bar--dock-top", pastKv);
+        if (pastKv) {
+          bottomBar.classList.add("scrolled");
+        } else {
+          bottomBar.classList.remove("scrolled");
+        }
+      } else {
+        bottomBar.classList.remove("bottom-bar--dock-top");
+        if (y >= 100) bottomBar.classList.add("scrolled");
+        else bottomBar.classList.remove("scrolled");
+      }
+
       syncBottomBarDock();
     }
 

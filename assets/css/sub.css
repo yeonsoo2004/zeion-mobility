@@ -114,6 +114,302 @@
 }
 
 /* ==========================================
+   Model — ZE-1 KV (hero + stats + in-section CTA bar)
+   Tokens: common.css (--font-primary, --main-font, --main-color, --point-blue)
+========================================== */
+.sub-kv-section.model-kv {
+  height: 100vh;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--main-color);
+  /* 메인과 동일한 하단 고정 바(80px) + 제원과 바 사이 간격 (style.css .bottom-bar 높이와 맞춤) */
+  --model-kv-stats-lift: 50px;
+}
+
+/* 모델 KV 배경: 효과 없음 — 정적 cover (GSAP·transform·opacity 애니 없음) */
+.sub-kv-section.model-kv .kv-bg-img {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  opacity: 1;
+  will-change: auto;
+  background-size: cover;
+  background-position: center;
+}
+
+/*
+  타이틀 블록: 브랜드 KV와 동일(세로 중앙·좌측 정렬) + 참고 레이아웃처럼 살짝 위로 당김
+  제원 그리드는 section 기준 bottom 고정(별도 규칙)
+*/
+.sub-kv-section.model-kv .inner {
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100%;
+  padding-top: 50px;
+  padding-bottom: 64px;
+  box-sizing: border-box;
+}
+
+.sub-kv-section.model-kv .breadcrumb {
+  margin-bottom: clamp(1.25rem, 3vh, 2.25rem);
+}
+
+.sub-kv-section.model-kv .kv-content {
+  /* 브레드크럼·타이틀 세로 위치: 숫자를 더 음수로 하면 더 위로 이동 */
+  transform: translateY(clamp(-2rem, -9vh, -0.65rem));
+  will-change: transform;
+}
+
+.sub-kv-section.model-kv .model-sub {
+  font-family: var(--font-primary);
+  font-size: 24px;
+  font-weight: var(--weight-semibold);
+  color: var(--text-white);
+  margin: 0 0 5px;
+}
+
+.sub-kv-section.model-kv .kv-title {
+  font-size: 80px;
+  font-weight: var(--weight-bold);
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.sub-kv-section.model-kv .model-stats-grid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(1.5rem, 4vw, 5rem) clamp(2rem, 6vw, 80px);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
+  bottom: calc(80px + var(--model-kv-stats-lift) + env(safe-area-inset-bottom, 0px));
+  border: 0;
+  box-shadow: none;
+}
+
+.sub-kv-section.model-kv .model-stats-grid .stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 0;
+  box-shadow: none;
+}
+
+.sub-kv-section.model-kv .model-stats-grid .stat-item .label {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: var(--weight-medium);
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 10px;
+}
+
+.sub-kv-section.model-kv .model-stats-grid .stat-item .value {
+  font-family: var(--font-primary);
+  font-size: 40px;
+  font-weight: var(--weight-bold);
+  color: #ffffff;
+  line-height: 1;
+  margin: 0;
+}
+
+/*
+  Luna 하단 바: KV 구간 = index처럼 투명 + 하단 고정 / KV 통과 후 = 헤더 아래 상단 고정 + 흰 배경
+  (common.js 가 .bottom-bar--dock-top 토글)
+*/
+.bottom-bar.bottom-bar--light {
+  height: 70px;
+  min-height: 70px;
+  background-color: transparent;
+  transition:
+    top 0.35s ease,
+    bottom 0.35s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.bottom-bar.bottom-bar--light.bottom-bar--dock-top {
+  top: 80px;
+  bottom: auto;
+  background-color: #ffffff;
+  box-shadow: 0 10px 36px rgba(5, 13, 26, 0.14);
+}
+
+.bottom-bar.bottom-bar--light.bottom-bar--dock-top.scrolled {
+  background-color: #ffffff;
+}
+
+/* KV 위(투명 바): 밝은 글자·고스트 버튼 = 메인과 유사 */
+.bottom-bar.bottom-bar--light:not(.bottom-bar--dock-top) .bottom-bar__copy {
+  color: var(--text-cool-gray);
+}
+
+.bottom-bar.bottom-bar--light:not(.bottom-bar--dock-top) .bottom-bar__btn--ghost {
+  background-color: transparent;
+  color: var(--text-white);
+  border-left: 1px solid rgba(226, 232, 240, 0.22);
+}
+
+.bottom-bar.bottom-bar--light:not(.bottom-bar--dock-top) .bottom-bar__btn--ghost:hover,
+.bottom-bar.bottom-bar--light:not(.bottom-bar--dock-top) .bottom-bar__btn--ghost:focus-visible {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-white);
+}
+
+/* 상단 고정(흰 바): 복사는 진한색, 구매상담은 검정 솔리드 */
+.bottom-bar.bottom-bar--light.bottom-bar--dock-top .bottom-bar__copy {
+  color: var(--main-font);
+}
+
+.bottom-bar.bottom-bar--light.bottom-bar--dock-top .bottom-bar__btn--ghost {
+  background-color: var(--main-color);
+  color: var(--text-white);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.bottom-bar.bottom-bar--light.bottom-bar--dock-top .bottom-bar__btn--ghost:hover,
+.bottom-bar.bottom-bar--light.bottom-bar--dock-top .bottom-bar__btn--ghost:focus-visible {
+  background-color: #0c192e;
+  color: var(--text-white);
+}
+
+.bottom-bar.bottom-bar--light .bottom-bar__btn:focus-visible {
+  outline-color: rgba(37, 99, 235, 0.55);
+}
+
+.bottom-bar.bottom-bar--light .bottom-bar__inner {
+  height: 70px;
+  min-height: 70px;
+  align-items: center;
+}
+
+.bottom-bar.bottom-bar--light .bottom-bar__btn {
+  height: 70px;
+  min-height: 70px;
+}
+
+.bottom-bar.bottom-bar--light.bottom-bar--dock-top .bottom-bar__inner,
+.bottom-bar.bottom-bar--light.bottom-bar--dock-top .bottom-bar__btn {
+  height: 70px;
+  min-height: 70px;
+}
+
+.bottom-bar.bottom-bar--light .bottom-bar__car {
+  width: clamp(52px, 12vw, 72px);
+}
+
+@media (max-width: 768px) {
+  .bottom-bar.bottom-bar--light.bottom-bar--dock-top {
+    top: 80px;
+    height: auto;
+    min-height: 70px;
+  }
+
+  .bottom-bar.bottom-bar--light {
+    height: auto;
+    min-height: 70px;
+  }
+
+  .bottom-bar.bottom-bar--light .bottom-bar__inner {
+    height: auto;
+    min-height: 70px;
+  }
+
+  .bottom-bar.bottom-bar--light .bottom-bar__btn {
+    height: auto;
+    min-height: 48px;
+  }
+
+  .bottom-bar.bottom-bar--light.bottom-bar--dock-top .bottom-bar__inner {
+    height: auto;
+    min-height: 70px;
+  }
+
+  .bottom-bar.bottom-bar--light.bottom-bar--dock-top .bottom-bar__btn {
+    height: auto;
+    min-height: 48px;
+  }
+}
+
+/* ==========================================
+   Model — ZE-1 Feature (wide image stack, luna.html)
+   Tokens: common.css (--main-color, --font-primary, --text-white, --weight-bold)
+========================================== */
+main.model-main {
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+.model-feature-section {
+  padding: 20px 0;
+}
+
+.model-feature-section .feature-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.model-feature-section .feature-item {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.model-feature-section .feature-item img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  min-height: clamp(200px, 26vw, 420px);
+}
+
+.model-feature-section .feature-item .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.model-feature-section .feature-text {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  margin: 0;
+  width: 100%;
+  padding-inline: 30px;
+  box-sizing: border-box;
+  font-family: var(--font-primary);
+  font-size: 32px;
+  font-weight: var(--weight-bold);
+  color: var(--text-white);
+  text-align: center;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+/* ==========================================
    Brand — About section (KV 하단)
 ========================================== */
 
@@ -780,6 +1076,14 @@
     font-size: clamp(2.5rem, 3.2vw + 1.25rem, 3.25rem);
   }
 
+  .sub-kv-section.model-kv .kv-title {
+    font-size: clamp(2.75rem, 4vw + 1.5rem, 5rem);
+  }
+
+  .sub-kv-section.model-kv .model-stats-grid {
+    padding-inline: 24px;
+  }
+
   .about-title {
     font-size: clamp(2.5rem, 3.2vw + 1.25rem, 3.25rem);
   }
@@ -793,6 +1097,19 @@
   .sub-kv-section .inner {
     padding-top: 8rem;
     padding-bottom: 3.5rem;
+  }
+
+  .sub-kv-section.model-kv .model-stats-grid {
+    gap: 48px 56px;
+    padding-inline: 22px;
+  }
+
+  .sub-kv-section.model-kv .kv-content {
+    transform: translateY(clamp(-1.25rem, -6.2vh, -0.42rem));
+  }
+
+  .model-feature-section .feature-text {
+    font-size: 28px;
   }
 
   .breadcrumb {
@@ -886,10 +1203,47 @@
     min-height: 45rem;
   }
 
+  .sub-kv-section.model-kv {
+    min-height: 0;
+    height: 100vh;
+  }
+
   .sub-kv-section .inner {
     padding-top: 7.5rem;
     padding-bottom: 3rem;
     justify-content: center;
+  }
+
+  .sub-kv-section.model-kv .inner {
+    justify-content: center;
+  }
+
+  .sub-kv-section.model-kv .kv-content {
+    transform: translateY(clamp(-1rem, -5.6vh, -0.22rem));
+  }
+
+  .sub-kv-section.model-kv .kv-title {
+    font-size: clamp(2rem, 6vw + 0.5rem, 2.75rem);
+    margin-bottom: 0;
+  }
+
+  .sub-kv-section.model-kv .model-stats-grid {
+    gap: 2rem 2.5rem;
+    bottom: calc(80px + var(--model-kv-stats-lift) + env(safe-area-inset-bottom, 0px));
+    padding-inline: 20px;
+  }
+
+  .sub-kv-section.model-kv .model-stats-grid .stat-item .value {
+    font-size: 1.75rem;
+  }
+
+  .model-feature-section {
+    padding: 100px 0;
+  }
+
+  .model-feature-section .feature-text {
+    font-size: 22px;
+    bottom: 30px;
   }
 
   .breadcrumb {
@@ -1068,6 +1422,25 @@
     min-height: 40rem;
   }
 
+  .sub-kv-section.model-kv {
+    min-height: 0;
+    height: 100vh;
+  }
+
+  .sub-kv-section.model-kv .inner {
+    justify-content: center;
+  }
+
+  .sub-kv-section.model-kv .kv-content {
+    transform: translateY(clamp(-0.8rem, -4.2vh, -0.15rem));
+  }
+
+  .sub-kv-section.model-kv .model-stats-grid {
+    gap: 1.25rem 1.5rem;
+    bottom: max(7.5rem, calc(80px + var(--model-kv-stats-lift) + env(safe-area-inset-bottom, 0px)));
+    padding-inline: 16px;
+  }
+
   .sub-kv-section .inner {
     padding-top: 7rem;
     padding-bottom: 2.5rem;
@@ -1138,6 +1511,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .sub-kv-section.model-kv .kv-content {
+    transform: none;
+  }
+
+  .bottom-bar.bottom-bar--light {
+    transition: none;
+  }
+
   .brand-history-section .hist-img,
   #animImageBox .img-overlay {
     transition: none;
