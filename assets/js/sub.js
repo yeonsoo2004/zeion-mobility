@@ -4,8 +4,7 @@
  * - Model feature & interior (luna): ScrollTrigger 아래→위(y)·페이드(더 긴 duration·큰 y)
  * - Model custom video (luna): .model-custom-video-section .video-container.anim-rise ScrollTrigger + #customVideo API
  * - Model spec (luna): .model-spec-section .anim-rise 순차(stagger 0.2) 페이드업
- * - ESG KV (esg.html): .sub-kv-section.esg-kv .anim-rise y:100, duration 1.2s
- * - ESG Core (esg.html): .esg-core-section .anim-rise 스크롤 등장
+ * - ESG KV / Core (esg.html): Luna 모델과 동일 modelScrollRise* (y 88, 1.5s, stagger 0.24)
  * - About / Philosophy: ScrollTrigger Rise (stagger)
  * - History: pin-height 스크롤, 이미지 축소 + 타임라인·이미지 동기화 (scrub)
  * - Media: 탭 필터 + GSAP opacity/scale (0.4s)
@@ -146,15 +145,15 @@
   var esgKvRiseEls = gsap.utils.toArray(".sub-kv-section.esg-kv .anim-rise");
   if (esgKvSection && esgKvRiseEls.length && !reducedMotion) {
     gsap.from(esgKvRiseEls, {
-      y: 100,
+      y: modelScrollRiseY,
       opacity: 0,
-      duration: 1.2,
-      ease: "power3.out",
-      stagger: 0.18,
+      duration: modelScrollRiseDuration,
+      ease: modelScrollRiseEase,
+      stagger: 0.24,
       immediateRender: false,
       scrollTrigger: {
         trigger: esgKvSection,
-        start: "top 88%",
+        start: modelScrollRiseStart,
         toggleActions: "play none none none",
       },
     });
@@ -164,15 +163,15 @@
   var esgCoreRiseEls = gsap.utils.toArray(".esg-core-section .anim-rise");
   if (esgCoreSection && esgCoreRiseEls.length && !reducedMotion) {
     gsap.from(esgCoreRiseEls, {
-      y: 100,
+      y: modelScrollRiseY,
       opacity: 0,
-      duration: 1.2,
-      ease: "power3.out",
-      stagger: 0.18,
+      duration: modelScrollRiseDuration,
+      ease: modelScrollRiseEase,
+      stagger: 0.24,
       immediateRender: false,
       scrollTrigger: {
         trigger: esgCoreSection,
-        start: "top 88%",
+        start: modelScrollRiseStart,
         toggleActions: "play none none none",
       },
     });
