@@ -1,7 +1,11 @@
 /**
  * ZEION — 서브페이지 (브랜드 KV + About + Philosophy + History)
- * - KV: 브랜드만 줌·패럴랙스 / 모델(luna)은 텍스트 Fade-up만
- * - Model feature (luna): 각 .feature-item 개별 ScrollTrigger fade+rise
+ * - KV(브랜드·모델): 동일한 느린 배경 줌(scale 1→1.09, 18s) + 모델은 텍스트 Fade-up
+ * - Model feature & interior (luna): ScrollTrigger 아래→위(y)·페이드(더 긴 duration·큰 y)
+ * - Model custom video (luna): .model-custom-video-section .video-container.anim-rise ScrollTrigger + #customVideo API
+ * - Model spec (luna): .model-spec-section .anim-rise 순차(stagger 0.2) 페이드업
+ * - ESG KV (esg.html): .sub-kv-section.esg-kv .anim-rise y:100, duration 1.2s
+ * - ESG Core (esg.html): .esg-core-section .anim-rise 스크롤 등장
  * - About / Philosophy: ScrollTrigger Rise (stagger)
  * - History: pin-height 스크롤, 이미지 축소 + 타임라인·이미지 동기화 (scrub)
  * - Media: 탭 필터 + GSAP opacity/scale (0.4s)
@@ -15,38 +19,27 @@
 
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* luna 등 모델 페이지 스크롤 등장: 이동량·시간을 키워 체감되게 */
+  var modelScrollRiseY = 88;
+  var modelScrollRiseDuration = 1.5;
+  var modelScrollRiseEase = "power3.out";
+  var modelScrollRiseStart = "top 88%";
+
   var kvSection = document.querySelector(".sub-kv-section");
   var kvBg = document.querySelector(".kv-bg-img");
   var isModelKv = kvSection && kvSection.classList.contains("model-kv");
 
   if (!reducedMotion && kvSection && kvBg) {
-    /* 모델 KV: 배경에는 GSAP 미적용(정지 이미지). 브랜드 KV만 줌·패럴랙스 */
-    if (!isModelKv) {
-      gsap.fromTo(
-        kvBg,
-        { scale: 1 },
-        {
-          scale: 1.15,
-          duration: 10,
-          ease: "power1.out",
-        }
-      );
-
-      gsap.fromTo(
-        kvBg,
-        { yPercent: 10 },
-        {
-          yPercent: 0,
-          ease: "none",
-          scrollTrigger: {
-            trigger: kvSection,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        }
-      );
-    }
+    /* 브랜드·모델 KV 공통: luna와 동일한 아주 느린 줌 */
+    gsap.fromTo(
+      kvBg,
+      { scale: 1 },
+      {
+        scale: 1.09,
+        duration: 18,
+        ease: "power1.out",
+      }
+    );
 
     var kvCopyEls = isModelKv
       ? gsap.utils.toArray(
@@ -79,17 +72,109 @@
   if (featureItems.length && !reducedMotion) {
     featureItems.forEach(function (item) {
       gsap.from(item, {
-        y: 50,
+        y: modelScrollRiseY,
         opacity: 0,
-        duration: 1,
-        ease: "power2.out",
+        duration: modelScrollRiseDuration,
+        ease: modelScrollRiseEase,
         immediateRender: false,
         scrollTrigger: {
           trigger: item,
-          start: "top 85%",
+          start: modelScrollRiseStart,
           toggleActions: "play none none none",
         },
       });
+    });
+  }
+
+  var interiorSection = document.querySelector(".model-interior-section");
+  var interiorRiseEls = gsap.utils.toArray(
+    ".model-interior-section .interior-header.anim-rise, .model-interior-section .interior-swiper.anim-rise"
+  );
+  if (interiorSection && interiorRiseEls.length && !reducedMotion) {
+    gsap.from(interiorRiseEls, {
+      y: modelScrollRiseY,
+      opacity: 0,
+      duration: modelScrollRiseDuration,
+      ease: modelScrollRiseEase,
+      stagger: 0.24,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: interiorSection,
+        start: modelScrollRiseStart,
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
+  var modelVideoWrap = document.querySelector(
+    ".model-custom-video-section .video-container.anim-rise"
+  );
+  if (modelVideoWrap && !reducedMotion) {
+    gsap.from(modelVideoWrap, {
+      y: modelScrollRiseY,
+      opacity: 0,
+      duration: modelScrollRiseDuration,
+      ease: modelScrollRiseEase,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: modelVideoWrap,
+        start: modelScrollRiseStart,
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
+  var specSection = document.querySelector(".model-spec-section");
+  var specRiseEls = gsap.utils.toArray(".model-spec-section .anim-rise");
+  if (specSection && specRiseEls.length && !reducedMotion) {
+    gsap.from(specRiseEls, {
+      y: modelScrollRiseY,
+      opacity: 0,
+      duration: modelScrollRiseDuration,
+      ease: modelScrollRiseEase,
+      stagger: 0.24,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: specSection,
+        start: modelScrollRiseStart,
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
+  var esgKvSection = document.querySelector(".sub-kv-section.esg-kv");
+  var esgKvRiseEls = gsap.utils.toArray(".sub-kv-section.esg-kv .anim-rise");
+  if (esgKvSection && esgKvRiseEls.length && !reducedMotion) {
+    gsap.from(esgKvRiseEls, {
+      y: 100,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power3.out",
+      stagger: 0.18,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: esgKvSection,
+        start: "top 88%",
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
+  var esgCoreSection = document.querySelector(".esg-core-section");
+  var esgCoreRiseEls = gsap.utils.toArray(".esg-core-section .anim-rise");
+  if (esgCoreSection && esgCoreRiseEls.length && !reducedMotion) {
+    gsap.from(esgCoreRiseEls, {
+      y: 100,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power3.out",
+      stagger: 0.18,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: esgCoreSection,
+        start: "top 88%",
+        toggleActions: "play none none none",
+      },
     });
   }
 
@@ -345,6 +430,222 @@
     },
     { once: true }
   );
+})();
+
+/* ZE-1 Interior — Swiper (2-up grid, scrollbar drag 50% desktop / auto mobile) */
+(function () {
+  if (typeof Swiper === "undefined") return;
+
+  var el = document.querySelector(".interior-swiper");
+  if (!el) return;
+
+  var scrollbarEl = el.querySelector(".swiper-scrollbar");
+  if (!scrollbarEl) return;
+
+  /* true면 모바일에서도 트랙 너비의 50% 고정 드래그(기본 false = auto → 슬라이드 1/4 노출 시 약 25%) */
+  var INTERIOR_SCROLLBAR_MOBILE_DRAG_HALF = false;
+
+  function applyInteriorScrollbarDragSize(swiper) {
+    if (!swiper || !swiper.scrollbar) return;
+    var tw = scrollbarEl.clientWidth || scrollbarEl.offsetWidth;
+    if (!tw) return;
+
+    var isMobile = window.matchMedia("(max-width: 767px)").matches;
+    var drag;
+
+    if (isMobile) {
+      drag = INTERIOR_SCROLLBAR_MOBILE_DRAG_HALF
+        ? Math.max(1, Math.round(tw * 0.5))
+        : "auto";
+    } else {
+      drag = Math.max(1, Math.round(tw * 0.5));
+    }
+
+    swiper.params.scrollbar.dragSize = drag;
+    swiper.scrollbar.updateSize();
+  }
+
+  var interiorSwiper = new Swiper(el, {
+    speed: 800,
+    slidesPerView: 1,
+    slidesPerGroup: 1,
+    spaceBetween: 24,
+    grabCursor: true,
+    scrollbar: {
+      el: scrollbarEl,
+      draggable: true,
+      dragSize: "auto",
+    },
+    breakpoints: {
+      768: {
+        slidesPerView: 2,
+        slidesPerGroup: 2,
+        spaceBetween: 24,
+      },
+    },
+    on: {
+      init: function (swiper) {
+        requestAnimationFrame(function () {
+          applyInteriorScrollbarDragSize(swiper);
+          if (typeof ScrollTrigger !== "undefined") {
+            ScrollTrigger.refresh();
+          }
+        });
+      },
+      resize: function (swiper) {
+        applyInteriorScrollbarDragSize(swiper);
+      },
+      breakpoint: function (swiper) {
+        requestAnimationFrame(function () {
+          applyInteriorScrollbarDragSize(swiper);
+        });
+      },
+    },
+  });
+
+  window.addEventListener(
+    "load",
+    function () {
+      applyInteriorScrollbarDragSize(interiorSwiper);
+    },
+    { once: true }
+  );
+})();
+
+/* ZE-1 — 커스텀 인라인 비디오 (#customVideo) */
+(function () {
+  var video = document.getElementById("customVideo");
+  var container = document.getElementById("videoContainer");
+  if (!video || !container) return;
+
+  var playPauseBtn = document.getElementById("playPauseBtn");
+  var progressWrap = document.getElementById("progressBarWrapper");
+  var progressFill = document.getElementById("progressBarFill");
+  var currentTimeEl = document.getElementById("currentTime");
+  var totalDurationEl = document.getElementById("totalDuration");
+
+  if (!playPauseBtn || !progressWrap || !progressFill || !currentTimeEl || !totalDurationEl) {
+    return;
+  }
+
+  function formatTime(sec) {
+    if (!isFinite(sec) || sec < 0) return "0:00";
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  function updateProgressFill() {
+    var d = video.duration;
+    if (!isFinite(d) || d <= 0) {
+      progressFill.style.width = "0%";
+      return;
+    }
+    progressFill.style.width = (video.currentTime / d) * 100 + "%";
+  }
+
+  function updateTimeLabels() {
+    currentTimeEl.textContent = formatTime(video.currentTime);
+    totalDurationEl.textContent = formatTime(video.duration);
+  }
+
+  function syncPlayingClass() {
+    container.classList.toggle("is-playing", !video.paused);
+    playPauseBtn.setAttribute("aria-label", video.paused ? "재생" : "일시정지");
+  }
+
+  function togglePlay() {
+    if (video.paused) {
+      var p = video.play();
+      if (p && typeof p.catch === "function") {
+        p.catch(function () {});
+      }
+    } else {
+      video.pause();
+    }
+  }
+
+  container.addEventListener("click", function (e) {
+    if (e.target.closest(".video-controls")) return;
+    togglePlay();
+  });
+
+  playPauseBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    togglePlay();
+  });
+
+  progressWrap.addEventListener("click", function (e) {
+    e.stopPropagation();
+    var d = video.duration;
+    if (!isFinite(d) || d <= 0) return;
+    var rect = progressWrap.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var ratio = Math.min(1, Math.max(0, x / rect.width));
+    video.currentTime = ratio * d;
+    updateProgressFill();
+    updateTimeLabels();
+  });
+
+  video.addEventListener("timeupdate", function () {
+    updateProgressFill();
+    currentTimeEl.textContent = formatTime(video.currentTime);
+  });
+
+  video.addEventListener("loadedmetadata", function () {
+    updateTimeLabels();
+    updateProgressFill();
+  });
+
+  video.addEventListener("play", syncPlayingClass);
+  video.addEventListener("pause", syncPlayingClass);
+  video.addEventListener("ended", syncPlayingClass);
+
+  syncPlayingClass();
+  updateTimeLabels();
+  updateProgressFill();
+
+  var customVideoSection = document.querySelector(".model-custom-video-section");
+  function playWhenSectionVisible() {
+    if (!customVideoSection) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+    function attemptPlay() {
+      var p = video.play();
+      if (p && typeof p.catch === "function") {
+        p.catch(function () {
+          video.muted = true;
+          var p2 = video.play();
+          if (p2 && typeof p2.catch === "function") {
+            p2.catch(function () {});
+          }
+        });
+      }
+    }
+    if (typeof ScrollTrigger !== "undefined") {
+      ScrollTrigger.create({
+        trigger: customVideoSection,
+        start: "top 85%",
+        once: true,
+        onEnter: attemptPlay,
+      });
+    } else if (typeof IntersectionObserver !== "undefined") {
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) {
+              attemptPlay();
+              io.disconnect();
+            }
+          });
+        },
+        { root: null, rootMargin: "0px", threshold: 0.12 }
+      );
+      io.observe(customVideoSection);
+    }
+  }
+  playWhenSectionVisible();
 })();
 
 (function () {
