@@ -738,6 +738,11 @@ body.mobile-nav-open .site-header__menu-icon--close {
   box-sizing: border-box;
 }
 
+.features-section .feature-tabs .tab-item {
+  pointer-events: none;
+  cursor: default;
+}
+
 .feature-swiper {
   position: absolute;
   inset: 0;
@@ -1333,10 +1338,8 @@ body.mobile-nav-open .site-header__menu-icon--close {
   background-color: var(--point-blue);
   text-decoration: none;
   cursor: pointer;
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.35),
-    0 12px 36px rgba(37, 99, 235, 0.45);
-  transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: none;
+  transition: background-color 0.25s ease, transform 0.25s ease;
 }
 
 .index-join-section .btn-join__arrow {
@@ -1348,7 +1351,7 @@ body.mobile-nav-open .site-header__menu-icon--close {
 .index-join-section .btn-join:focus-visible {
   background-color: #1d4ed8;
   transform: translateY(-2px);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+  box-shadow: none;
 }
 
 .index-join-section .btn-join:active {

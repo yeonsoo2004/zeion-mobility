@@ -431,6 +431,47 @@
   );
 })();
 
+/**
+ * ESG Data Center — modal interactions
+ */
+(function () {
+  var modal = document.getElementById("dataModal");
+  if (!modal) return;
+
+  var titleEl = document.getElementById("modalTitle");
+  var descEl = document.getElementById("modalDesc");
+  var closeBtn = modal.querySelector(".btn-modal-close");
+  var backdrop = modal.querySelector(".modal-backdrop");
+  var cards = document.querySelectorAll(".esg-data-center .data-card");
+
+  function closeModal() {
+    modal.classList.remove("is-active");
+  }
+
+  function openModal(title, desc) {
+    if (titleEl) titleEl.textContent = title || "";
+    if (descEl) descEl.textContent = desc || "";
+    modal.classList.add("is-active");
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener("click", function () {
+      var title = card.getAttribute("data-title") || "";
+      var desc = card.getAttribute("data-desc") || "";
+      openModal(title, desc);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  if (backdrop) backdrop.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modal.classList.contains("is-active")) {
+      closeModal();
+    }
+  });
+})();
+
 /* ZE-1 Interior — Swiper (2-up grid, scrollbar drag 50% desktop / auto mobile) */
 (function () {
   if (typeof Swiper === "undefined") return;

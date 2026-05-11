@@ -262,18 +262,11 @@
     },
   });
 
+  // 이 섹션은 스크롤(핀 + scrub)로만 슬라이드가 바뀌어야 하므로,
+  // 탭 UI는 표시만 하고 클릭/키보드 조작으로는 전환되지 않게 잠금 처리.
   tabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
-      var idx = Number(tab.getAttribute("data-index") || 0);
-      featureSwiper.slideTo(idx);
-    });
-    tab.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        var idx = Number(tab.getAttribute("data-index") || 0);
-        featureSwiper.slideTo(idx);
-      }
-    });
+    tab.setAttribute("tabindex", "-1");
+    tab.setAttribute("aria-disabled", "true");
   });
 
   setActiveTab(0);
@@ -281,6 +274,28 @@
   // Pin + scroll → slide 전환
   if (hasGsap && totalSlides > 1) {
     var lastIndex = -1;
+
+    function setPinnedTabFocusLocked(locked) {
+      // 핀 스크롤 중에는 키보드 Tab 포커스가 섹션 내 UI로 들어오지 않게 막음
+      // (스크롤로만 슬라이드 전환되게)
+      tabs.forEach(function (t) {
+        if (locked) {
+          if (!t.hasAttribute("data-prev-tabindex")) {
+            var prev = t.getAttribute("tabindex");
+            t.setAttribute("data-prev-tabindex", prev === null ? "" : prev);
+          }
+          t.setAttribute("tabindex", "-1");
+          t.setAttribute("aria-disabled", "true");
+        } else {
+          var prevVal = t.getAttribute("data-prev-tabindex");
+          if (prevVal === "") t.removeAttribute("tabindex");
+          else if (prevVal != null) t.setAttribute("tabindex", prevVal);
+          t.removeAttribute("data-prev-tabindex");
+          t.removeAttribute("aria-disabled");
+        }
+      });
+    }
+
     ScrollTrigger.create({
       trigger: section,
       start: "top top",
@@ -292,6 +307,18 @@
       scrub: 1,
       anticipatePin: 1,
       invalidateOnRefresh: true,
+      onEnter: function () {
+        setPinnedTabFocusLocked(true);
+      },
+      onEnterBack: function () {
+        setPinnedTabFocusLocked(true);
+      },
+      onLeave: function () {
+        setPinnedTabFocusLocked(false);
+      },
+      onLeaveBack: function () {
+        setPinnedTabFocusLocked(false);
+      },
       onUpdate: function (self) {
         var idx = Math.round(self.progress * (totalSlides - 1));
         idx = Math.max(0, Math.min(totalSlides - 1, idx));
@@ -321,10 +348,16 @@
   var modelSwiper = null;
   if (typeof Swiper !== "undefined") {
     modelSwiper = new Swiper(swiperEl, {
-      effect: "slide",
+      effect: "cards",
       loop: true,
-      speed: 650,
+      speed: 520,
+      grabCursor: true,
       allowTouchMove: true,
+      cardsEffect: {
+        perSlideOffset: 10,
+        perSlideRotate: 0,
+        slideShadows: false,
+      },
     });
   }
 
@@ -348,6 +381,12 @@
     modelSwiper.on("slideChange", function () {
       var idx = modelSwiper.realIndex;
       setActiveTab(idx === 1 ? "ze-x" : "ze-1");
+    });
+
+    swiperEl.addEventListener("click", function (e) {
+      // 클릭하면 겹친 카드가 앞으로 나오도록 다음 슬라이드로 전환
+      if (!e.target.closest(".swiper-slide")) return;
+      modelSwiper.slideNext();
     });
   }
   setActiveTab("ze-1");
@@ -553,16 +592,15 @@
   );
 
   // 중반: 텍스트 살짝 확대 + 자간 미세 조정
+  // 텍스트는 과한 scale/letterSpacing 변주 대신,
+  // 자연스러운 페이드업 + 미세한 투명도 변화만 적용
   if (text) {
-    tl.to(
+    tl.fromTo(
       text,
-      { scale: 1.03, letterSpacing: "-0.01em", duration: 0.35 },
-      0.35
-    ).to(
-      text,
-      { scale: 0.98, letterSpacing: "-0.03em", opacity: 0.92, duration: 0.35 },
-      0.7
-    );
+      { y: 18, opacity: 0, filter: "blur(2px)" },
+      { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.45 },
+      0.15
+    ).to(text, { opacity: 0.92, duration: 0.35 }, 0.8);
   }
 
   // 배경 딤도 함께 변주 (텍스트 가독성 강화)
