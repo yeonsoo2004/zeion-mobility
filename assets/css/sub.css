@@ -1027,7 +1027,6 @@ main.model-main {
   column-gap: clamp(1.5rem, 3vw, 2.5rem);
   row-gap: 15px;
   align-items: start;
-  border-top: 2px solid var(--main-font);
   padding-top: 40px;
   margin-bottom: 60px;
 }
