@@ -1,10 +1,14 @@
 /**
  * ZEION — 서브페이지 (브랜드 KV + About + Philosophy + History)
- * - KV(브랜드·모델): 동일한 느린 배경 줌(scale 1→1.09, 18s) + 모델은 텍스트 Fade-up
- * - Model feature & interior (luna): ScrollTrigger 아래→위(y)·페이드(더 긴 duration·큰 y)
+ * - KV(브랜드·모델): 느린 배경 줌(scale 1→1.09, 18s) + 텍스트 Fade-up
+ * - Pre-reservation KV: scale 1.05→1.15 (17.5s) + .anim-rise (brand KV와 동일 y·duration·ease)
+ * - Pre-reservation info: .pre-info-section .anim-rise ScrollTrigger
+ * - Support (support.html): KV .anim-rise 로드 등장 + 폼 ScrollTrigger + 문의유형 커스텀 셀렉트 + 탭 전환
+ * - Model feature & interior 등 스크롤 등장: brand KV와 동일 (y 40, 0.95s, power2.out, autoAlpha)
  * - Model custom video (luna): .model-custom-video-section .video-container.anim-rise ScrollTrigger + #customVideo API
- * - Model spec (luna): .model-spec-section .anim-rise 순차(stagger 0.2) 페이드업
- * - ESG KV / Core (esg.html): Luna 모델과 동일 modelScrollRise* (y 88, 1.5s, stagger 0.24)
+ * - Model spec (luna/terra): 제목 → 좌·우 컬럼 동시 등장 → 노트 (스크롤 트리거 1개)
+ * - ESG KV (esg.html): KV .anim-rise 동시 등장(글·영상 stagger 없음)
+ * - ESG Core: 인트로 + Environment/Social/Governance 각각 스크롤 진입 시 등장(트리거 분리)
  * - About / Philosophy: ScrollTrigger Rise (stagger)
  * - History: pin-height 스크롤, 이미지 축소 + 타임라인·이미지 동기화 (scrub)
  * - Media: 탭 필터 + GSAP opacity/scale (0.4s)
@@ -18,49 +22,78 @@
 
   var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* luna 등 모델 페이지 스크롤 등장: 이동량·시간을 키워 체감되게 */
-  var modelScrollRiseY = 88;
-  var modelScrollRiseDuration = 1.5;
-  var modelScrollRiseEase = "power3.out";
-  var modelScrollRiseStart = "top 88%";
+  /* 스크롤 위로 등장 — brand.html KV 문구(fromTo y·duration·ease)와 동일 체감 */
+  var pageScrollRiseY = 40;
+  var pageScrollRiseDuration = 0.95;
+  var pageScrollRiseEase = "power2.out";
+  var pageScrollRiseStart = "top 88%";
 
   var kvSection = document.querySelector(".sub-kv-section");
   var kvBg = document.querySelector(".kv-bg-img");
   var isModelKv = kvSection && kvSection.classList.contains("model-kv");
+  var isPreKv = kvSection && kvSection.classList.contains("pre-kv");
 
   if (!reducedMotion && kvSection && kvBg) {
-    /* 브랜드·모델 KV 공통: luna와 동일한 아주 느린 줌 */
-    gsap.fromTo(
-      kvBg,
-      { scale: 1 },
-      {
-        scale: 1.09,
-        duration: 18,
-        ease: "power1.out",
-      }
-    );
-
-    var kvCopyEls = isModelKv
-      ? gsap.utils.toArray(
-          ".sub-kv-section.model-kv .breadcrumb, .sub-kv-section.model-kv .model-title-group, .sub-kv-section.model-kv .model-stats-grid"
-        )
-      : gsap.utils.toArray(
-          ".sub-kv-section .breadcrumb, .sub-kv-section .kv-desc, .sub-kv-section .kv-title"
-        );
-
-    if (kvCopyEls.length) {
+    if (isPreKv) {
+      /* 사전예약 KV: 초기 1.05 → 천천히 1.15 (몰입용 시네마틱 줌) */
       gsap.fromTo(
-        kvCopyEls,
-        { autoAlpha: 0, y: 40 },
+        kvBg,
+        { scale: 1.05 },
         {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.95,
-          ease: "power2.out",
-          stagger: isModelKv ? 0.2 : 0.14,
-          delay: 0.35,
+          scale: 1.15,
+          duration: 17.5,
+          ease: "power1.out",
         }
       );
+      var preKvRise = gsap.utils.toArray(".sub-kv-section.pre-kv .anim-rise");
+      if (preKvRise.length) {
+        gsap.fromTo(
+          preKvRise,
+          { autoAlpha: 0, y: 40 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.95,
+            ease: "power2.out",
+            stagger: 0.14,
+            delay: 0.35,
+          }
+        );
+      }
+    } else {
+      /* 브랜드·모델 KV 공통: luna와 동일한 아주 느린 줌 */
+      gsap.fromTo(
+        kvBg,
+        { scale: 1 },
+        {
+          scale: 1.09,
+          duration: 18,
+          ease: "power1.out",
+        }
+      );
+
+      var kvCopyEls = isModelKv
+        ? gsap.utils.toArray(
+            ".sub-kv-section.model-kv .breadcrumb, .sub-kv-section.model-kv .model-title-group, .sub-kv-section.model-kv .model-stats-grid"
+          )
+        : gsap.utils.toArray(
+            ".sub-kv-section .breadcrumb, .sub-kv-section .kv-desc, .sub-kv-section .kv-title"
+          );
+
+      if (kvCopyEls.length) {
+        gsap.fromTo(
+          kvCopyEls,
+          { autoAlpha: 0, y: 40 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.95,
+            ease: "power2.out",
+            stagger: isModelKv ? 0.2 : 0.14,
+            delay: 0.35,
+          }
+        );
+      }
     }
   }
 
@@ -71,14 +104,14 @@
   if (featureItems.length && !reducedMotion) {
     featureItems.forEach(function (item) {
       gsap.from(item, {
-        y: modelScrollRiseY,
-        opacity: 0,
-        duration: modelScrollRiseDuration,
-        ease: modelScrollRiseEase,
+        y: pageScrollRiseY,
+        autoAlpha: 0,
+        duration: pageScrollRiseDuration,
+        ease: pageScrollRiseEase,
         immediateRender: false,
         scrollTrigger: {
           trigger: item,
-          start: modelScrollRiseStart,
+          start: pageScrollRiseStart,
           toggleActions: "play none none none",
         },
       });
@@ -91,15 +124,15 @@
   );
   if (interiorSection && interiorRiseEls.length && !reducedMotion) {
     gsap.from(interiorRiseEls, {
-      y: modelScrollRiseY,
-      opacity: 0,
-      duration: modelScrollRiseDuration,
-      ease: modelScrollRiseEase,
-      stagger: 0.24,
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
       immediateRender: false,
       scrollTrigger: {
         trigger: interiorSection,
-        start: modelScrollRiseStart,
+        start: pageScrollRiseStart,
         toggleActions: "play none none none",
       },
     });
@@ -110,70 +143,223 @@
   );
   if (modelVideoWrap && !reducedMotion) {
     gsap.from(modelVideoWrap, {
-      y: modelScrollRiseY,
-      opacity: 0,
-      duration: modelScrollRiseDuration,
-      ease: modelScrollRiseEase,
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
       immediateRender: false,
       scrollTrigger: {
         trigger: modelVideoWrap,
-        start: modelScrollRiseStart,
+        start: pageScrollRiseStart,
         toggleActions: "play none none none",
       },
     });
   }
 
   var specSection = document.querySelector(".model-spec-section");
-  var specRiseEls = gsap.utils.toArray(".model-spec-section .anim-rise");
-  if (specSection && specRiseEls.length && !reducedMotion) {
-    gsap.from(specRiseEls, {
-      y: modelScrollRiseY,
-      opacity: 0,
-      duration: modelScrollRiseDuration,
-      ease: modelScrollRiseEase,
-      stagger: 0.24,
+  if (specSection && !reducedMotion) {
+    var specScrollTrigger = {
+      trigger: specSection,
+      start: pageScrollRiseStart,
+      toggleActions: "play none none none",
+    };
+    var specTweenDefaults = {
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
       immediateRender: false,
-      scrollTrigger: {
-        trigger: specSection,
-        start: modelScrollRiseStart,
-        toggleActions: "play none none none",
-      },
-    });
+    };
+    var specTitle = specSection.querySelector(".spec-title.anim-rise");
+    var specInfo = specSection.querySelector(".spec-info.anim-rise");
+    var specVisual = specSection.querySelector(".spec-visual.anim-rise");
+    var specNote = specSection.querySelector(".spec-note.anim-rise");
+    var specCols = [];
+    if (specInfo) specCols.push(specInfo);
+    if (specVisual) specCols.push(specVisual);
+
+    if (specTitle || specCols.length || specNote) {
+      var specTl = gsap.timeline({
+        scrollTrigger: specScrollTrigger,
+        defaults: specTweenDefaults,
+      });
+      var specStagger = 0.14;
+      var p = 0;
+      if (specTitle) {
+        specTl.from(specTitle, {}, p);
+        p += specStagger;
+      }
+      if (specCols.length) {
+        specTl.from(specCols, { stagger: 0 }, p);
+        p += specStagger;
+      }
+      if (specNote) {
+        specTl.from(specNote, {}, p);
+      }
+    }
   }
 
+  /* ESG KV: 브레드크럼·제목·영상을 동시에 등장(stagger 없음 — 글/영상 타이밍 일치) */
   var esgKvSection = document.querySelector(".sub-kv-section.esg-kv");
   var esgKvRiseEls = gsap.utils.toArray(".sub-kv-section.esg-kv .anim-rise");
   if (esgKvSection && esgKvRiseEls.length && !reducedMotion) {
     gsap.from(esgKvRiseEls, {
-      y: modelScrollRiseY,
-      opacity: 0,
-      duration: modelScrollRiseDuration,
-      ease: modelScrollRiseEase,
-      stagger: 0.24,
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0,
       immediateRender: false,
       scrollTrigger: {
         trigger: esgKvSection,
-        start: modelScrollRiseStart,
+        start: pageScrollRiseStart,
         toggleActions: "play none none none",
       },
     });
   }
 
   var esgCoreSection = document.querySelector(".esg-core-section");
-  var esgCoreRiseEls = gsap.utils.toArray(".esg-core-section .anim-rise");
-  if (esgCoreSection && esgCoreRiseEls.length && !reducedMotion) {
-    gsap.from(esgCoreRiseEls, {
-      y: modelScrollRiseY,
-      opacity: 0,
-      duration: modelScrollRiseDuration,
-      ease: modelScrollRiseEase,
-      stagger: 0.24,
+  if (esgCoreSection && !reducedMotion) {
+    var esgIntro = esgCoreSection.querySelector(".esg-intro");
+    if (esgIntro) {
+      gsap.from(esgIntro, {
+        y: pageScrollRiseY,
+        autoAlpha: 0,
+        duration: pageScrollRiseDuration,
+        ease: pageScrollRiseEase,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: esgIntro,
+          start: pageScrollRiseStart,
+          toggleActions: "play none none none",
+        },
+      });
+    }
+
+    var esgInner = esgCoreSection.querySelector(".inner");
+    var categoryBlocks = [];
+    if (esgInner) {
+      Array.prototype.forEach.call(esgInner.children, function (child) {
+        if (child.classList && child.classList.contains("esg-category-block")) {
+          categoryBlocks.push(child);
+        }
+      });
+    }
+    categoryBlocks.forEach(function (block) {
+      var next = block.nextElementSibling;
+      var targets = [block];
+      if (next && next.classList && next.classList.contains("expandable-gallery")) {
+        targets.push(next);
+      }
+      gsap.from(targets, {
+        y: pageScrollRiseY,
+        autoAlpha: 0,
+        duration: pageScrollRiseDuration,
+        ease: pageScrollRiseEase,
+        stagger: 0.14,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: block,
+          start: pageScrollRiseStart,
+          toggleActions: "play none none none",
+        },
+      });
+    });
+  }
+
+  var esgRatingSection = document.querySelector(".esg-rating-section");
+  var esgRatingRiseEls = gsap.utils.toArray(".esg-rating-section .anim-rise");
+  if (esgRatingSection && esgRatingRiseEls.length && !reducedMotion) {
+    gsap.from(esgRatingRiseEls, {
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
       immediateRender: false,
       scrollTrigger: {
-        trigger: esgCoreSection,
-        start: modelScrollRiseStart,
+        trigger: esgRatingSection,
+        start: pageScrollRiseStart,
         toggleActions: "play none none none",
       },
+    });
+  }
+
+  var esgCertSection = document.querySelector(".esg-cert-section");
+  var esgCertRiseEls = gsap.utils.toArray(".esg-cert-section .esg-cert-list.anim-rise");
+  if (esgCertSection && esgCertRiseEls.length && !reducedMotion) {
+    gsap.from(esgCertRiseEls, {
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: esgCertSection,
+        start: pageScrollRiseStart,
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
+  var preInfoSection = document.querySelector(".pre-info-section");
+  var preInfoRiseEls = gsap.utils.toArray(".pre-info-section .anim-rise");
+  if (preInfoSection && preInfoRiseEls.length && !reducedMotion) {
+    gsap.from(preInfoRiseEls, {
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: preInfoSection,
+        start: pageScrollRiseStart,
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
+  var supportSection = document.querySelector(".support-section");
+  var supportKvRiseEls = gsap.utils.toArray(".support-section .support-kv .anim-rise");
+  if (supportSection && supportKvRiseEls.length && !reducedMotion) {
+    gsap.from(supportKvRiseEls, {
+      autoAlpha: 0,
+      y: pageScrollRiseY,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
+      delay: 0.12,
+    });
+  }
+
+  var supportFormRise = document.querySelector(".support-form-area .support-form.anim-rise");
+  if (supportSection && supportFormRise && !reducedMotion) {
+    gsap.from(supportFormRise, {
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: supportFormRise,
+        start: pageScrollRiseStart,
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
+  var supportTabs = document.querySelector(".support-section .support-tabs");
+  if (supportTabs) {
+    supportTabs.addEventListener("click", function (e) {
+      var btn = e.target.closest(".tab-btn");
+      if (!btn || !supportTabs.contains(btn)) return;
+      supportTabs.querySelectorAll(".tab-btn").forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle("active", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
+      });
     });
   }
 
@@ -184,15 +370,15 @@
 
   if (aboutSection && aboutGroups.length && !reducedMotion) {
     gsap.from(aboutGroups, {
-      y: 60,
-      opacity: 0,
-      duration: 1.2,
-      ease: "power3.out",
-      stagger: 0.3,
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
       immediateRender: false,
       scrollTrigger: {
         trigger: aboutSection,
-        start: "top 82%",
+        start: pageScrollRiseStart,
         toggleActions: "play none none none",
       },
     });
@@ -205,14 +391,15 @@
 
   if (philosophySection && philosophyTargets.length && !reducedMotion) {
     gsap.from(philosophyTargets, {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      ease: "power3.out",
+      y: pageScrollRiseY,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
       immediateRender: false,
       scrollTrigger: {
         trigger: philosophySection,
-        start: "top 85%",
+        start: pageScrollRiseStart,
         toggleActions: "play none none none",
       },
     });
@@ -469,6 +656,60 @@
     if (e.key === "Escape" && modal.classList.contains("is-active")) {
       closeModal();
     }
+  });
+})();
+
+/**
+ * ESG — Rating accordion table (한 번에 한 행만 펼침)
+ */
+(function () {
+  var section = document.querySelector(".esg-rating-section");
+  if (!section) return;
+
+  var rows = section.querySelectorAll(".accordion-row");
+
+  function closeRow(r) {
+    var v = r.querySelector(".tbl-row-visible");
+    var h = r.querySelector(".tbl-row-hidden");
+    if (!v || !h) return;
+    r.classList.remove("active");
+    v.setAttribute("aria-expanded", "false");
+    h.setAttribute("aria-hidden", "true");
+  }
+
+  rows.forEach(function (row) {
+    var visible = row.querySelector(".tbl-row-visible");
+    var hidden = row.querySelector(".tbl-row-hidden");
+    if (!visible || !hidden) return;
+
+    hidden.setAttribute("aria-hidden", "true");
+
+    function setOpen(open) {
+      row.classList.toggle("active", open);
+      visible.setAttribute("aria-expanded", open ? "true" : "false");
+      hidden.setAttribute("aria-hidden", open ? "false" : "true");
+    }
+
+    function onActivate() {
+      var isOpen = row.classList.contains("active");
+      if (isOpen) {
+        setOpen(false);
+        return;
+      }
+      rows.forEach(function (other) {
+        if (other !== row) closeRow(other);
+      });
+      setOpen(true);
+    }
+
+    visible.addEventListener("click", onActivate);
+
+    visible.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onActivate();
+      }
+    });
   });
 })();
 
@@ -759,4 +1000,284 @@
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && modal.classList.contains("active")) closeModal();
   });
+})();
+
+/**
+ * 고객지원(support.html): 문의 유형 — 네이티브 option은 OS 스타일이라 커스텀 리스트로 대체
+ * (숨긴 select는 name/type·값 동기화만 담당)
+ */
+(function () {
+  function qs(root, sel) {
+    return root.querySelector(sel);
+  }
+
+  function setupCustomSelect(wrap) {
+    var native = qs(wrap, "select");
+    if (!native || wrap.getAttribute("data-custom-select-initialized") === "1") return;
+
+    var inputGroup = wrap.closest(".input-group");
+    var label = inputGroup ? qs(inputGroup, "label") : null;
+    var triggerId = "inquiryType-trigger";
+    var listId = "inquiryType-listbox";
+
+    var button = document.createElement("button");
+    button.type = "button";
+    button.className = "custom-select__trigger";
+    button.id = triggerId;
+    button.setAttribute("aria-haspopup", "listbox");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", listId);
+    if (label && label.id) {
+      button.setAttribute("aria-labelledby", label.id);
+    }
+
+    var valueSpan = document.createElement("span");
+    valueSpan.className = "custom-select__value";
+    valueSpan.id = triggerId + "-value";
+
+    var chevron = document.createElement("span");
+    chevron.className = "custom-select__chevron";
+    chevron.setAttribute("aria-hidden", "true");
+
+    button.appendChild(valueSpan);
+    button.appendChild(chevron);
+
+    var list = document.createElement("ul");
+    list.className = "custom-select__list";
+    list.id = listId;
+    list.setAttribute("role", "listbox");
+    list.setAttribute("hidden", "");
+
+    var options = native.querySelectorAll("option");
+    var optionEls = [];
+    Array.prototype.forEach.call(options, function (opt, idx) {
+      var li = document.createElement("li");
+      li.className = "custom-select__option";
+      li.setAttribute("role", "option");
+      li.setAttribute("data-index", String(idx));
+      li.setAttribute("id", listId + "-opt-" + idx);
+      li.textContent = opt.textContent;
+      if (opt.value === "") {
+        li.classList.add("custom-select__option--placeholder");
+      }
+      li.setAttribute("aria-selected", opt.selected ? "true" : "false");
+      li.tabIndex = -1;
+      list.appendChild(li);
+      optionEls.push(li);
+    });
+
+    wrap.insertBefore(button, native);
+    wrap.insertBefore(list, native);
+
+    wrap.setAttribute("data-custom-select-initialized", "1");
+    wrap.classList.add("is-ready");
+
+    native.tabIndex = -1;
+    if (label) {
+      label.setAttribute("for", triggerId);
+    }
+
+    var isOpen = false;
+    var highlightIndex = Math.max(0, native.selectedIndex);
+    var docPointerDown = null;
+
+    function getOptionCount() {
+      return optionEls.length;
+    }
+
+    function syncListAriaSelected() {
+      var si = native.selectedIndex;
+      optionEls.forEach(function (li, j) {
+        li.setAttribute("aria-selected", j === si ? "true" : "false");
+      });
+    }
+
+    function updateTrigger() {
+      var opt = native.options[native.selectedIndex];
+      valueSpan.textContent = opt ? opt.textContent : "";
+      button.classList.toggle("is-placeholder", native.value === "");
+      syncListAriaSelected();
+    }
+
+    function setHighlight(i, scrollIntoView) {
+      var n = getOptionCount();
+      if (!n) return;
+      highlightIndex = Math.max(0, Math.min(n - 1, i));
+      optionEls.forEach(function (li, j) {
+        li.classList.toggle("is-highlighted", j === highlightIndex);
+        li.tabIndex = j === highlightIndex ? 0 : -1;
+      });
+      if (scrollIntoView && optionEls[highlightIndex]) {
+        optionEls[highlightIndex].scrollIntoView({ block: "nearest" });
+      }
+    }
+
+    function removeDocListeners() {
+      if (docPointerDown) {
+        document.removeEventListener("pointerdown", docPointerDown, true);
+        docPointerDown = null;
+      }
+    }
+
+    function close() {
+      if (!isOpen) return;
+      isOpen = false;
+      list.setAttribute("hidden", "");
+      button.setAttribute("aria-expanded", "false");
+      wrap.classList.remove("is-open");
+      removeDocListeners();
+      optionEls.forEach(function (li) {
+        li.classList.remove("is-highlighted");
+      });
+    }
+
+    function open() {
+      if (isOpen) return;
+      isOpen = true;
+      list.removeAttribute("hidden");
+      button.setAttribute("aria-expanded", "true");
+      wrap.classList.add("is-open");
+      highlightIndex = native.selectedIndex >= 0 ? native.selectedIndex : 0;
+      setHighlight(highlightIndex, true);
+      if (optionEls[highlightIndex]) {
+        optionEls[highlightIndex].focus({ preventScroll: true });
+      }
+
+      docPointerDown = function (e) {
+        if (!wrap.contains(e.target)) {
+          close();
+          button.focus();
+        }
+      };
+      document.addEventListener("pointerdown", docPointerDown, true);
+    }
+
+    function toggle() {
+      if (isOpen) {
+        close();
+        button.focus();
+      } else {
+        open();
+      }
+    }
+
+    function commitIndex(idx) {
+      if (idx < 0 || idx >= getOptionCount()) return;
+      native.selectedIndex = idx;
+      native.dispatchEvent(new Event("input", { bubbles: true }));
+      native.dispatchEvent(new Event("change", { bubbles: true }));
+      updateTrigger();
+      close();
+      button.focus();
+    }
+
+    updateTrigger();
+
+    button.addEventListener("click", function (e) {
+      e.preventDefault();
+      toggle();
+    });
+
+    button.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (!isOpen) {
+          open();
+        } else {
+          setHighlight(highlightIndex + 1, true);
+          if (optionEls[highlightIndex]) optionEls[highlightIndex].focus({ preventScroll: true });
+        }
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (!isOpen) {
+          open();
+          setHighlight(getOptionCount() - 1, true);
+          if (optionEls[highlightIndex]) optionEls[highlightIndex].focus({ preventScroll: true });
+        } else {
+          setHighlight(highlightIndex - 1, true);
+          if (optionEls[highlightIndex]) optionEls[highlightIndex].focus({ preventScroll: true });
+        }
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (!isOpen) {
+          open();
+        }
+      } else if (e.key === "Escape") {
+        if (isOpen) {
+          e.preventDefault();
+          close();
+          button.focus();
+        }
+      } else if (e.key === "Tab" && isOpen) {
+        close();
+      }
+    });
+
+    list.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        close();
+        button.focus();
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlight(highlightIndex + 1, true);
+        if (optionEls[highlightIndex]) optionEls[highlightIndex].focus({ preventScroll: true });
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlight(highlightIndex - 1, true);
+        if (optionEls[highlightIndex]) optionEls[highlightIndex].focus({ preventScroll: true });
+      } else if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        commitIndex(highlightIndex);
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        setHighlight(0, true);
+        if (optionEls[0]) optionEls[0].focus({ preventScroll: true });
+      } else if (e.key === "End") {
+        e.preventDefault();
+        setHighlight(getOptionCount() - 1, true);
+        if (optionEls[highlightIndex]) optionEls[highlightIndex].focus({ preventScroll: true });
+      }
+    });
+
+    list.addEventListener("pointerdown", function (e) {
+      var li = e.target.closest(".custom-select__option");
+      if (!li || !list.contains(li)) return;
+      e.preventDefault();
+    });
+
+    list.addEventListener("click", function (e) {
+      var li = e.target.closest(".custom-select__option");
+      if (!li || !list.contains(li)) return;
+      var idx = parseInt(li.getAttribute("data-index"), 10);
+      if (!isNaN(idx)) commitIndex(idx);
+    });
+
+    list.addEventListener("pointermove", function (e) {
+      var li = e.target.closest(".custom-select__option");
+      if (!li || !list.contains(li)) return;
+      var idx = parseInt(li.getAttribute("data-index"), 10);
+      if (!isNaN(idx) && idx !== highlightIndex) {
+        setHighlight(idx, false);
+      }
+    });
+
+    wrap.addEventListener("focusout", function (e) {
+      if (!isOpen) return;
+      var rt = e.relatedTarget;
+      if (!rt || !wrap.contains(rt)) {
+        close();
+      }
+    });
+  }
+
+  function init() {
+    document.querySelectorAll(".support-section [data-custom-select]").forEach(setupCustomSelect);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();

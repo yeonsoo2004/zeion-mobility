@@ -19,6 +19,10 @@
       --text-white: #ffffff;
       --text-cool-gray: #e2e8f0;
       --text-slate-muted: #94a3b8;
+      --text-slate-600: #64748b;
+      --surface-slate-50: #f8fafc;
+      /* 폼·구분선 (라이트 서브페이지) */
+      --border-slate-300: #cbd5e1;
       --text-gray-888: #888888;
       --text-lnb-item: rgba(226, 232, 240, 0.72);
       --text-drawer-lnb: rgba(226, 232, 240, 0.9);
@@ -30,6 +34,7 @@
       --weight-medium: 500;
       --weight-semibold: 600;
       --weight-bold: 700;
+      --weight-extrabold: 800;
   
       --line-height-heading: 1.2; /* 120% */
       --line-height-subheading: 1.3; /* 130% */
@@ -107,6 +112,7 @@
     .font-medium { font-weight: var(--weight-medium); }
     .font-semibold { font-weight: var(--weight-semibold); }
     .font-bold { font-weight: var(--weight-bold); }
+    .font-extrabold { font-weight: var(--weight-extrabold); }
   
     /* ---------------------------------
        Spacing (Padding & Margin)
@@ -133,6 +139,7 @@
     .text-white { color: var(--text-white); }
     .text-cool-gray { color: var(--text-cool-gray); }
     .text-slate-muted { color: var(--text-slate-muted); }
+    .text-slate-600 { color: var(--text-slate-600); }
     .text-gray-888 { color: var(--text-gray-888); }
     .text-lnb-item { color: var(--text-lnb-item); }
     .text-drawer-lnb { color: var(--text-drawer-lnb); }
@@ -293,12 +300,39 @@
       font-size: 16px;
       letter-spacing: -0.01em;
     }
+
+    /* 사전예약 안내 섹션 (pre-info): 제목·보조 카피 */
+    .type-pre-info-title {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-bold);
+      font-size: clamp(1.75rem, 2vw + 1.25rem, 2.25rem);
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      color: var(--main-font);
+    }
+
+    .type-pre-meta-note {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-regular);
+      font-size: 0.8125rem;
+      line-height: 1.45;
+      color: var(--text-slate-600);
+    }
+
+    .type-pre-meta-body {
+      font-family: var(--font-primary);
+      font-weight: var(--weight-regular);
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--text-slate-600);
+    }
   
     /* 배경색 지정이 필요할 때 사용 */
     .bg-point-green { background-color: var(--point-green); }
     .bg-point-blue { background-color: var(--point-blue); }
     .bg-main-color { background-color: var(--main-color); }
     .bg-surface-white { background-color: var(--text-white); }
+    .bg-surface-slate-50 { background-color: var(--surface-slate-50); }
   }
 
 

@@ -74,7 +74,14 @@
     modelsSubnav.addEventListener("focusout", scheduleCloseModelsSubnav);
   }
 
-  /** 푸터 진입 시 바를 뷰포트 하단이 아니라 푸터 상단(조인~푸터 사이)에 맞춤 */
+  /** 레이아웃 뷰포트 높이(주소창 등으로 innerHeight만 쓸 때와 어긋나는 경우 완화) */
+  function getLayoutViewportHeight() {
+    var el = document.documentElement;
+    if (el && el.clientHeight) return el.clientHeight;
+    return window.innerHeight || 0;
+  }
+
+  /** 푸터 진입 시 바를 뷰포트 하단이 아니라 푸터 상단에 맞춤 — 실측으로 틈·겹침 보정 */
   function syncBottomBarDock() {
     if (!bottomBar) return;
     if (bottomBar.classList.contains("bottom-bar--dock-top")) {
@@ -86,10 +93,25 @@
       bottomBar.style.removeProperty("--bottom-bar-dock");
       return;
     }
-    var vh = window.innerHeight;
+    var vh = getLayoutViewportHeight();
     var footerTop = footer.getBoundingClientRect().top;
     var dock = Math.max(0, Math.round(vh - footerTop));
     bottomBar.style.setProperty("--bottom-bar-dock", dock + "px");
+
+    var i;
+    for (i = 0; i < 3; i++) {
+      void bottomBar.offsetHeight;
+      var barBottom = bottomBar.getBoundingClientRect().bottom;
+      var ft = footer.getBoundingClientRect().top;
+      var gap = ft - barBottom;
+      if (Math.abs(gap) < 0.35) break;
+      if (gap > 0) {
+        dock = Math.max(0, dock - Math.round(gap));
+      } else {
+        dock = dock + Math.round(-gap);
+      }
+      bottomBar.style.setProperty("--bottom-bar-dock", dock + "px");
+    }
   }
 
   function syncHeaderScroll() {
@@ -129,6 +151,7 @@
       }
 
       syncBottomBarDock();
+      requestAnimationFrame(syncBottomBarDock);
     }
 
     lastScrollY = y;
@@ -151,6 +174,29 @@
   positionModelsLnb();
   window.addEventListener("load", positionModelsLnb);
 
+  if (typeof ScrollTrigger !== "undefined" && typeof ScrollTrigger.addEventListener === "function") {
+    ScrollTrigger.addEventListener("refresh", function () {
+      syncBottomBarDock();
+    });
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener(
+      "resize",
+      function () {
+        syncBottomBarDock();
+      },
+      { passive: true }
+    );
+    window.visualViewport.addEventListener(
+      "scroll",
+      function () {
+        syncBottomBarDock();
+      },
+      { passive: true }
+    );
+  }
+
   /* ----- Mobile drawer ----- */
   var drawer = document.getElementById("mobile-drawer");
   var toggle = document.querySelector(".site-header__menu-toggle");
@@ -164,6 +210,9 @@
     toggle.setAttribute("aria-label", "메뉴 열기");
     document.body.classList.remove("mobile-nav-open");
     closeAccordion();
+    if (typeof window.__zeionRefreshScrollTop === "function") {
+      window.__zeionRefreshScrollTop();
+    }
   }
 
   function openMobileMenu() {
@@ -173,6 +222,9 @@
     toggle.setAttribute("aria-expanded", "true");
     toggle.setAttribute("aria-label", "메뉴 닫기");
     document.body.classList.add("mobile-nav-open");
+    if (typeof window.__zeionRefreshScrollTop === "function") {
+      window.__zeionRefreshScrollTop();
+    }
   }
 
   function closeAccordion() {
@@ -347,17 +399,15 @@
 
   var modelSwiper = null;
   if (typeof Swiper !== "undefined") {
+    // 슬라이드 순서: [0]=ZE-X, [1]=ZE-1 — 초기 ZE-1(인덱스 1). rewind 없음: ZE-1에서 왼쪽(next) 스와이프 막힘, ZE-X에서 오른쪽(prev) 막힘.
     modelSwiper = new Swiper(swiperEl, {
-      effect: "cards",
-      loop: true,
-      speed: 520,
+      effect: "slide",
+      loop: false,
+      speed: 0,
       grabCursor: true,
       allowTouchMove: true,
-      cardsEffect: {
-        perSlideOffset: 10,
-        perSlideRotate: 0,
-        slideShadows: false,
-      },
+      initialSlide: 1,
+      slidesPerView: 1,
     });
   }
 
@@ -373,20 +423,20 @@
     btn.addEventListener("click", function () {
       var target = btn.getAttribute("data-target");
       setActiveTab(target);
-      if (modelSwiper) modelSwiper.slideToLoop(target === "ze-x" ? 1 : 0);
+      if (modelSwiper) modelSwiper.slideTo(target === "ze-1" ? 1 : 0);
     });
   });
 
   if (modelSwiper) {
     modelSwiper.on("slideChange", function () {
-      var idx = modelSwiper.realIndex;
-      setActiveTab(idx === 1 ? "ze-x" : "ze-1");
+      var idx = modelSwiper.activeIndex;
+      setActiveTab(idx === 1 ? "ze-1" : "ze-x");
     });
 
     swiperEl.addEventListener("click", function (e) {
-      // 클릭하면 겹친 카드가 앞으로 나오도록 다음 슬라이드로 전환
       if (!e.target.closest(".swiper-slide")) return;
-      modelSwiper.slideNext();
+      var i = modelSwiper.activeIndex;
+      modelSwiper.slideTo(i === 0 ? 1 : 0);
     });
   }
   setActiveTab("ze-1");
@@ -469,13 +519,13 @@
 
   if (headline) {
     gsap.from(headline, {
-      y: 24,
-      opacity: 0,
-      duration: 1.25,
-      ease: "power3.out",
+      y: 40,
+      autoAlpha: 0,
+      duration: 0.95,
+      ease: "power2.out",
       scrollTrigger: {
         trigger: section,
-        start: "top 80%",
+        start: "top 88%",
         toggleActions: "play none none reset",
       },
     });
@@ -678,4 +728,44 @@
       0.08
     );
   }
+})();
+
+/**
+ * 맨 위로 플로팅 버튼 (전 페이지 · style.css .scroll-top-btn)
+ */
+(function () {
+  if (document.querySelector(".scroll-top-btn")) return;
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "scroll-top-btn";
+  btn.setAttribute("aria-label", "페이지 맨 위로 이동");
+  var icon = document.createElement("i");
+  icon.className = "fa-solid fa-chevron-up";
+  icon.setAttribute("aria-hidden", "true");
+  btn.appendChild(icon);
+  document.body.appendChild(btn);
+
+  function refreshScrollTopBtn() {
+    if (document.body.classList.contains("mobile-nav-open")) {
+      btn.classList.remove("is-visible");
+      return;
+    }
+    var y = window.scrollY || document.documentElement.scrollTop || 0;
+    btn.classList.toggle("is-visible", y > 320);
+  }
+
+  window.__zeionRefreshScrollTop = refreshScrollTopBtn;
+
+  window.addEventListener("scroll", refreshScrollTopBtn, { passive: true });
+  window.addEventListener("resize", refreshScrollTopBtn, { passive: true });
+  window.addEventListener("load", refreshScrollTopBtn);
+
+  btn.addEventListener("click", function () {
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  });
 })();
