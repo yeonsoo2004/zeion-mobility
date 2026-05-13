@@ -398,16 +398,34 @@
   if (!imageWrap || !swiperEl || tabs.length < 2) return;
 
   var modelSwiper = null;
+
+  /** [0]=ZE-1(초기), [1]=ZE-X. 왼쪽(다음)=ZE-1→ZE-X, ZE-X에서 왼쪽 막힘. 오른쪽(이전)=ZE-X→ZE-1, ZE-1에서 오른쪽 막힘. */
+  function applyModelSwipeLocks(sw) {
+    if (!sw || sw.destroyed) return;
+    var i = sw.activeIndex;
+    sw.allowSlideNext = i === 0;
+    sw.allowSlidePrev = i === 1;
+  }
+
   if (typeof Swiper !== "undefined") {
-    // 슬라이드 순서: [0]=ZE-X, [1]=ZE-1 — 초기 ZE-1(인덱스 1). rewind 없음: ZE-1에서 왼쪽(next) 스와이프 막힘, ZE-X에서 오른쪽(prev) 막힘.
+    // 슬라이드 순서: [0]=ZE-1, [1]=ZE-X — 초기 ZE-1. fade. 경계는 applyModelSwipeLocks로 고정.
     modelSwiper = new Swiper(swiperEl, {
-      effect: "slide",
+      effect: "fade",
+      fadeEffect: { crossFade: true },
       loop: false,
-      speed: 0,
+      speed: 650,
       grabCursor: true,
       allowTouchMove: true,
-      initialSlide: 1,
+      initialSlide: 0,
       slidesPerView: 1,
+      on: {
+        init: function () {
+          applyModelSwipeLocks(this);
+        },
+        slideChange: function () {
+          applyModelSwipeLocks(this);
+        },
+      },
     });
   }
 
@@ -423,20 +441,17 @@
     btn.addEventListener("click", function () {
       var target = btn.getAttribute("data-target");
       setActiveTab(target);
-      if (modelSwiper) modelSwiper.slideTo(target === "ze-1" ? 1 : 0);
+      if (modelSwiper) {
+        modelSwiper.slideTo(target === "ze-1" ? 0 : 1);
+        applyModelSwipeLocks(modelSwiper);
+      }
     });
   });
 
   if (modelSwiper) {
     modelSwiper.on("slideChange", function () {
       var idx = modelSwiper.activeIndex;
-      setActiveTab(idx === 1 ? "ze-1" : "ze-x");
-    });
-
-    swiperEl.addEventListener("click", function (e) {
-      if (!e.target.closest(".swiper-slide")) return;
-      var i = modelSwiper.activeIndex;
-      modelSwiper.slideTo(i === 0 ? 1 : 0);
+      setActiveTab(idx === 0 ? "ze-1" : "ze-x");
     });
   }
   setActiveTab("ze-1");
@@ -633,34 +648,67 @@
     defaults: { ease: "none" },
   });
 
-  // 0 → 1: 등장/포커스
+  // 박스: 블러 해제 + 살짝 커지며 등장
   tl.fromTo(
     box,
-    { y: 40, opacity: 0, filter: "blur(6px)" },
-    { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.35 },
+    { y: 48, opacity: 0, scale: 0.94, filter: "blur(8px)" },
+    {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      filter: "blur(0px)",
+      duration: 0.4,
+      ease: "power2.out",
+    },
     0
   );
 
-  // 중반: 텍스트 살짝 확대 + 자간 미세 조정
-  // 텍스트는 과한 scale/letterSpacing 변주 대신,
-  // 자연스러운 페이드업 + 미세한 투명도 변화만 적용
+  // 본문: 작은 상태에서 크게 올라오는 시네마틱 리빌 → 정착
   if (text) {
     tl.fromTo(
       text,
-      { y: 18, opacity: 0, filter: "blur(2px)" },
-      { y: 0, opacity: 1, filter: "blur(0px)", duration: 0.45 },
-      0.15
-    ).to(text, { opacity: 0.92, duration: 0.35 }, 0.8);
+      {
+        y: 36,
+        opacity: 0,
+        scale: 0.82,
+        letterSpacing: "0.14em",
+        filter: "blur(4px)",
+        textShadow: "0 0 0 rgba(255,255,255,0)",
+      },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1.08,
+        letterSpacing: "0.03em",
+        filter: "blur(0px)",
+        textShadow: "0 0 48px rgba(255,255,255,0.22)",
+        duration: 0.52,
+        ease: "power3.out",
+      },
+      0.08
+    )
+      .to(
+        text,
+        {
+          scale: 1,
+          letterSpacing: "0em",
+          textShadow: "0 0 28px rgba(255,255,255,0.12)",
+          duration: 0.42,
+          ease: "power2.inOut",
+        },
+        0.48
+      )
+      .to(text, { opacity: 0.98, scale: 1.01, duration: 0.28, ease: "sine.inOut" }, 0.82);
   }
 
   // 배경 딤도 함께 변주 (텍스트 가독성 강화)
   if (dim) {
     tl.fromTo(
       dim,
-      { opacity: 0.65 },
-      { opacity: 0.85, duration: 0.6 },
-      0.2
-    ).to(dim, { opacity: 0.7, duration: 0.35 }, 0.85);
+      { opacity: 0.55 },
+      { opacity: 0.88, duration: 0.55, ease: "power1.out" },
+      0.12
+    ).to(dim, { opacity: 0.72, duration: 0.4, ease: "sine.inOut" }, 0.78);
   }
 })();
 

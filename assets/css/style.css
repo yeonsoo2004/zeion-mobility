@@ -1128,12 +1128,13 @@ body.mobile-nav-open .site-header__menu-icon--close {
 .esg-content-box {
   max-width: 820px;
   will-change: transform, opacity, filter;
+  transform-origin: left center;
 }
 
 .esg-main-text {
   margin: 0;
   word-break: keep-all;
-  will-change: transform, letter-spacing, opacity;
+  will-change: transform, letter-spacing, opacity, filter;
   transform-origin: left center;
 }
 

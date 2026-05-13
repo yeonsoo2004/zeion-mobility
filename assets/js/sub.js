@@ -1011,14 +1011,17 @@
     return root.querySelector(sel);
   }
 
+  var customSelectUid = 0;
+
   function setupCustomSelect(wrap) {
     var native = qs(wrap, "select");
     if (!native || wrap.getAttribute("data-custom-select-initialized") === "1") return;
 
     var inputGroup = wrap.closest(".input-group");
     var label = inputGroup ? qs(inputGroup, "label") : null;
-    var triggerId = "inquiryType-trigger";
-    var listId = "inquiryType-listbox";
+    var uid = ++customSelectUid;
+    var triggerId = "custom-select-trigger-" + uid;
+    var listId = "custom-select-listbox-" + uid;
 
     var button = document.createElement("button");
     button.type = "button";

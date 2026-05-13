@@ -137,7 +137,101 @@
               </li>
             </ul>
           </div>
-      
+          
+          <div class="pre-form-area anim-rise">
+            <h3 class="area-title sr-only">예약 모델 선택 및 정보 입력</h3>
+          
+            <div class="model-select-wrap">
+              <div class="model-card active" data-model="ZE-1 Luna">
+                <div class="model-img-box">
+                  <img src="../assets/images/pre-luna-color1.png" alt="ZE-1 Luna" id="img-luna">
+                </div>
+                <div class="model-info">
+                  <p class="model-type">Sedan</p>
+                  <h4 class="model-name">ZE-1 Luna</h4>
+                  <p class="model-spec">4,890만원~ · 540km</p>
+                  <div class="color-swatches" data-target="img-luna" data-prefix="../assets/images/pre-luna-color">
+                    <button type="button" class="swatch active" style="background-color: #00B87A;" data-idx="1" aria-label="Green"></button>
+                    <button type="button" class="swatch" style="background-color: #121212;" data-idx="2" aria-label="Black"></button>
+                    <button type="button" class="swatch" style="background-color: #2563EB;" data-idx="3" aria-label="Blue"></button>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="model-card" data-model="ZE-X Terra">
+                <div class="model-img-box">
+                  <img src="../assets/images/pre-terra-color1.png" alt="ZE-X Terra" id="img-terra">
+                </div>
+                <div class="model-info">
+                  <p class="model-type">SUV</p>
+                  <h4 class="model-name">ZE-X Terra</h4>
+                  <p class="model-spec">5,490만원~ · 480km</p>
+                  <div class="color-swatches" data-target="img-terra" data-prefix="../assets/images/pre-terra-color">
+                    <button type="button" class="swatch active" style="background-color: #00B87A;" data-idx="1" aria-label="Green"></button>
+                    <button type="button" class="swatch" style="background-color: #121212;" data-idx="2" aria-label="Black"></button>
+                    <button type="button" class="swatch" style="background-color: #2563EB;" data-idx="3" aria-label="Blue"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            <div class="selected-status-wrap">
+              <span class="status-badge" id="selectedModelBadge">ZE-1 Luna 선택 중</span>
+            </div>
+          
+            <form action="#" class="support-form pre-reserve-form">
+              <div class="form-row two-col">
+                <div class="input-group">
+                  <label for="resName">이름</label>
+                  <input type="text" id="resName" placeholder="이름을 입력해주세요.">
+                </div>
+                <div class="input-group">
+                  <label for="resPhone">연락처</label>
+                  <input type="text" id="resPhone" placeholder="숫자만 입력해 주세요. (예: 01012345678)">
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="input-group">
+                  <label for="resEmail">이메일</label>
+                  <input type="email" id="resEmail" placeholder="답변 받으실 이메일 주소를 입력해 주세요.">
+                </div>
+              </div>
+          
+              <div class="form-row two-col">
+                <div class="input-group">
+                  <label for="resRegion">거주 지역</label>
+                  <div class="select-wrap">
+                    <select id="resRegion">
+                      <option value="">선택</option>
+                      <option value="seoul">서울</option>
+                      <option value="gyeonggi">경기</option>
+                      <option value="other">기타</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label for="resTiming">구매 예정 시기</label>
+                  <div class="select-wrap">
+                    <select id="resTiming">
+                      <option value="">선택</option>
+                      <option value="1m">1개월 이내</option>
+                      <option value="3m">3개월 이내</option>
+                      <option value="6m">6개월 이내</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="form-row">
+                <div class="input-group">
+                  <label for="resContent">내용</label>
+                  <textarea id="resContent" rows="6" placeholder=""></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+          
           <div class="pre-warranty-area anim-rise">
             <h3 class="area-title feature-tab-title text-main-font">품질보증</h3>
 
