@@ -3,7 +3,8 @@
  * - KV(브랜드·모델): 느린 배경 줌(scale 1→1.09, 18s) + 텍스트 Fade-up
  * - Pre-reservation KV: scale 1.05→1.15 (17.5s) + .anim-rise (brand KV와 동일 y·duration·ease)
  * - Pre-reservation info: .pre-info-section .anim-rise ScrollTrigger
- * - Support (support.html): KV .anim-rise 로드 등장 + 폼 ScrollTrigger + 문의유형 커스텀 셀렉트 + 탭 전환
+ * - FAQ (faq.html): LNB·리스트 ScrollTrigger(하단→상단) + jQuery 아코디언(slideDown/slideUp·slideToggle)
+ * - Support (support.html): KV .anim-rise + 폼 ScrollTrigger + 문의유형 커스텀 셀렉트
  * - Model feature & interior 등 스크롤 등장: brand KV와 동일 (y 40, 0.95s, power2.out, autoAlpha)
  * - Model custom video (luna): .model-custom-video-section .video-container.anim-rise ScrollTrigger + #customVideo API
  * - Model spec (luna/terra): 제목 → 좌·우 컬럼 동시 등장 → 노트 (스크롤 트리거 1개)
@@ -321,6 +322,46 @@
     });
   }
 
+  var faqMain = document.querySelector(".faq-main");
+  var faqSectionRiseEls = gsap.utils.toArray(
+    ".faq-main .support-section .support-lnb, .faq-main .support-section .faq-wrap"
+  );
+  if (faqMain && faqSectionRiseEls.length && !reducedMotion) {
+    gsap.from(faqSectionRiseEls, {
+      y: 56,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: ".faq-main .support-section",
+        start: pageScrollRiseStart,
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
+  var showroomMain = document.querySelector(".showroom-main");
+  var showroomSectionRiseEls = gsap.utils.toArray(
+    ".showroom-main .support-section .support-lnb, .showroom-main .support-section .showroom-policy-area, .showroom-main .support-section .showroom-map-area"
+  );
+  if (showroomMain && showroomSectionRiseEls.length && !reducedMotion) {
+    gsap.from(showroomSectionRiseEls, {
+      y: 56,
+      autoAlpha: 0,
+      duration: pageScrollRiseDuration,
+      ease: pageScrollRiseEase,
+      stagger: 0.14,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: ".showroom-main .support-section",
+        start: pageScrollRiseStart,
+        toggleActions: "play none none none",
+      },
+    });
+  }
+
   var supportSection = document.querySelector(".support-section");
   var supportKvRiseEls = gsap.utils.toArray(".support-section .support-kv .anim-rise");
   if (supportSection && supportKvRiseEls.length && !reducedMotion) {
@@ -347,19 +388,6 @@
         start: pageScrollRiseStart,
         toggleActions: "play none none none",
       },
-    });
-  }
-
-  var supportTabs = document.querySelector(".support-section .support-tabs");
-  if (supportTabs) {
-    supportTabs.addEventListener("click", function (e) {
-      var btn = e.target.closest(".tab-btn");
-      if (!btn || !supportTabs.contains(btn)) return;
-      supportTabs.querySelectorAll(".tab-btn").forEach(function (b) {
-        var on = b === btn;
-        b.classList.toggle("active", on);
-        b.setAttribute("aria-selected", on ? "true" : "false");
-      });
     });
   }
 
@@ -1284,3 +1312,216 @@
     init();
   }
 })();
+
+/**
+ * 사전예약(pre-reservation.html): 모델 카드 선택 + 컬러 스와치 이미지 교체
+ */
+(function () {
+  function initPreReservationModelSelect() {
+    var root = document.querySelector(".pre-form-area");
+    if (!root) return;
+
+    var cards = root.querySelectorAll(".model-card");
+    var badge = document.getElementById("selectedModelBadge");
+
+    function setBadgeFromCard(card) {
+      if (!badge || !card) return;
+      var name = card.getAttribute("data-model");
+      badge.textContent = name ? name + " 선택 중" : "";
+    }
+
+    function syncSwatchDisabled() {
+      root.querySelectorAll(".model-card").forEach(function (card) {
+        var on = card.classList.contains("active");
+        card.querySelectorAll(".swatch").forEach(function (sw) {
+          sw.disabled = !on;
+          sw.setAttribute("aria-disabled", on ? "false" : "true");
+        });
+      });
+    }
+
+    function activateCard(card) {
+      cards.forEach(function (c) {
+        c.classList.remove("active");
+      });
+      if (card) {
+        card.classList.add("active");
+        setBadgeFromCard(card);
+      }
+      syncSwatchDisabled();
+    }
+
+    Array.prototype.forEach.call(cards, function (card) {
+      card.addEventListener("click", function () {
+        activateCard(card);
+      });
+    });
+
+    var initiallyActive = root.querySelector(".model-card.active");
+    if (initiallyActive) {
+      setBadgeFromCard(initiallyActive);
+    }
+    syncSwatchDisabled();
+
+    root.querySelectorAll(".swatch").forEach(function (swatch) {
+      swatch.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (swatch.disabled) return;
+        var wraps = swatch.closest(".color-swatches");
+        if (!wraps) return;
+        var targetId = wraps.getAttribute("data-target");
+        var prefix = wraps.getAttribute("data-prefix") || "";
+        var idx = swatch.getAttribute("data-idx");
+        if (!targetId || idx == null || idx === "") return;
+        var img = document.getElementById(targetId);
+        if (img) {
+          img.src = prefix + idx + ".png";
+        }
+        wraps.querySelectorAll(".swatch").forEach(function (s) {
+          s.classList.remove("active");
+        });
+        swatch.classList.add("active");
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPreReservationModelSelect);
+  } else {
+    initPreReservationModelSelect();
+  }
+})();
+
+/**
+ * 사전예약·고객지원 폼: 필수 입력 검증 + 접수 완료 alert (novalidate + 커스텀 메시지)
+ */
+(function () {
+  var REQUIRED_MSG = "필수 항목을 모두 입력해 주세요.";
+  var ALERT_BY_FORM_ID = {
+    preReserveForm: "사전예약 신청이 접수되었습니다.",
+    "support-inquiry-form": "문의가 접수되었습니다."
+  };
+
+  function isFilled(el) {
+    if (!el) return true;
+    if (el.type === "checkbox") return el.checked;
+    if (el.tagName === "SELECT") return el.value !== "" && el.value != null;
+    var v = (el.value || "").trim();
+    if (v === "") return false;
+    if (el.type === "email" && typeof el.checkValidity === "function") {
+      return el.checkValidity();
+    }
+    return true;
+  }
+
+  function firstInvalidRequired(form) {
+    var list = form.querySelectorAll("[required]");
+    for (var i = 0; i < list.length; i++) {
+      if (!isFilled(list[i])) return list[i];
+    }
+    return null;
+  }
+
+  function focusEl(el) {
+    if (!el) return;
+    try {
+      if (el.type === "hidden") return;
+      if (el.tagName === "SELECT") {
+        var wrap = el.closest("[data-custom-select]");
+        if (wrap && wrap.classList.contains("is-ready")) {
+          var tr = wrap.querySelector(".custom-select__trigger");
+          if (tr) {
+            tr.focus({ preventScroll: false });
+            return;
+          }
+        }
+      }
+      el.focus({ preventScroll: false });
+    } catch (e) {
+      /* noop */
+    }
+  }
+
+  function onSubmit(form, e) {
+    e.preventDefault();
+    var bad = firstInvalidRequired(form);
+    if (bad) {
+      alert(REQUIRED_MSG);
+      focusEl(bad);
+      return;
+    }
+    var msg = ALERT_BY_FORM_ID[form.id];
+    if (!msg) msg = "접수되었습니다.";
+    alert(msg);
+  }
+
+  function bind(form) {
+    if (!form || form.getAttribute("data-form-validate-bound") === "1") return;
+    form.setAttribute("data-form-validate-bound", "1");
+    form.addEventListener("submit", function (e) {
+      onSubmit(form, e);
+    });
+  }
+
+  function init() {
+    bind(document.getElementById("preReserveForm"));
+    bind(document.getElementById("support-inquiry-form"));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+
+/**
+ * FAQ (faq.html): jQuery — 단일 펼침 `slideDown`/`slideUp`, 다중(`exclusiveOpen: false`) `slideToggle`
+ */
+if (typeof jQuery !== "undefined") {
+  jQuery(function ($) {
+    var $root = $(".faq-main");
+    if (!$root.length) return;
+
+    var exclusiveOpen = true;
+
+    $root.on("click", ".faq-q", function () {
+      var $q = $(this);
+      var $item = $q.closest(".faq-item");
+      var $a = $q.next(".faq-a");
+
+      if (exclusiveOpen && !$item.hasClass("active")) {
+        $root.find(".faq-item.active").not($item).each(function () {
+          var $other = $(this);
+          $other.removeClass("active");
+          $other.find(".faq-q").attr("aria-expanded", "false");
+          $other.find(".faq-a").stop(true, true).slideUp(300);
+        });
+      }
+
+      if (!exclusiveOpen) {
+        $item.toggleClass("active");
+        $a.stop(true, true).slideToggle(300);
+        $q.attr("aria-expanded", $item.hasClass("active") ? "true" : "false");
+        return;
+      }
+
+      $item.toggleClass("active");
+      if ($item.hasClass("active")) {
+        $a.stop(true, true).slideDown(300);
+      } else {
+        $a.stop(true, true).slideUp(300);
+      }
+      $q.attr("aria-expanded", $item.hasClass("active") ? "true" : "false");
+    });
+
+    $root.on("keydown", ".faq-q", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        $(this).trigger("click");
+      }
+    });
+  });
+}
+
+

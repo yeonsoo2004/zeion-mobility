@@ -104,10 +104,19 @@
                 담당자 확인 후 답변 드리겠습니다
               </h2>
 
-              <div class="support-tabs anim-rise" role="tablist" aria-label="문의 구분">
-                <button type="button" class="tab-btn active" role="tab" aria-selected="true" id="support-tab-inquiry">고객문의</button>
-                <button type="button" class="tab-btn" role="tab" aria-selected="false" id="support-tab-report">제보하기</button>
-              </div>
+              <nav class="support-lnb anim-rise" aria-label="고객지원 하위 메뉴">
+                <ul class="lnb-list">
+                  <li class="lnb-item">
+                    <a href="./support.html" class="lnb-link active" aria-current="page">문의하기</a>
+                  </li>
+                  <li class="lnb-item">
+                    <a href="./support-showroom.html" class="lnb-link">전시장 찾기</a>
+                  </li>
+                  <li class="lnb-item">
+                    <a href="./faq.html" class="lnb-link">FAQ</a>
+                  </li>
+                </ul>
+              </nav>
             </div>
 
             <aside class="support-aside" aria-hidden="true">
@@ -124,26 +133,27 @@
           <form action="#" class="support-form anim-rise" id="support-inquiry-form" novalidate>
             <div class="form-row two-col">
               <div class="input-group">
-                <label for="companyName">회사명</label>
-                <input type="text" id="companyName" name="company" placeholder="회사명을 입력해주세요(필수)" autocomplete="organization">
+                <label for="companyName" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>회사명</label>
+                <input type="text" id="companyName" name="company" required placeholder="회사명을 입력해주세요(필수)" autocomplete="organization">
               </div>
               <div class="input-group">
-                <label for="contactNum">연락처</label>
-                <input type="text" id="contactNum" name="phone" inputmode="numeric" placeholder="숫자만 입력해 주세요. (예: 01012345678)" autocomplete="tel">
+                <label for="contactNum" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>연락처</label>
+                <input type="text" id="contactNum" name="phone" required inputmode="numeric" placeholder="숫자만 입력해 주세요. (예: 01012345678)" autocomplete="tel">
               </div>
             </div>
 
             <div class="form-row two-col">
               <div class="input-group">
-                <label for="emailAddr">이메일</label>
+                <label for="emailAddr" class="type-card-title-20 font-bold text-main-font">이메일</label>
                 <input type="email" id="emailAddr" name="email" placeholder="답변 받으실 이메일 주소를 입력해 주세요." autocomplete="email">
               </div>
               <div class="input-group">
-                <label id="inquiry-type-label" for="inquiryType-select">문의 유형</label>
+                <label id="inquiry-type-label" for="inquiryType-select" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>문의 유형</label>
                 <div class="select-wrap custom-select" data-custom-select>
                   <select
                     name="type"
                     id="inquiryType-select"
+                    required
                     class="custom-select__native"
                     aria-labelledby="inquiry-type-label"
                   >
@@ -158,8 +168,8 @@
 
             <div class="form-row">
               <div class="input-group">
-                <label for="inquiryContent">내용</label>
-                <textarea id="inquiryContent" name="message" rows="8" placeholder=""></textarea>
+                <label for="inquiryContent" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>내용</label>
+                <textarea id="inquiryContent" name="message" rows="8" required placeholder=""></textarea>
               </div>
             </div>
 
@@ -224,10 +234,7 @@
               <img src="../assets/images/icon/sns-you.svg" width="20" height="20" alt="">
             </a>
           </div>
-          <button type="button" class="btn-catalog">
-            카탈로그 다운로드
-            <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-          </button>
+          <a href="../assets/download.pdf" class="btn-catalog" download>카탈로그 다운로드<i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
         </div>
       </div>
       <div class="footer__row footer__row--links">

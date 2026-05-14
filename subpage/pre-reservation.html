@@ -108,7 +108,6 @@
 
           <div class="info-header anim-rise">
             <h2 id="pre-info-heading" class="info-title type-pre-info-title">사전예약을 통해 누구보다 빠르게<br>ZEION Luna와 Terra를 만나보세요</h2>
-            <a href="#" class="btn-go-reserve type-bottom-20-semibold text-white">사전예약 바로가기 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a>
           </div>
 
           <div class="pre-process-area anim-rise">
@@ -139,7 +138,7 @@
           </div>
           
           <div class="pre-form-area anim-rise">
-            <h3 class="area-title sr-only">예약 모델 선택 및 정보 입력</h3>
+            <h3 class="area-title feature-tab-title text-main-font">예약 모델 선택 및 정보 입력</h3>
           
             <div class="model-select-wrap">
               <div class="model-card active" data-model="ZE-1 Luna">
@@ -148,12 +147,12 @@
                 </div>
                 <div class="model-info">
                   <p class="model-type">Sedan</p>
-                  <h4 class="model-name">ZE-1 Luna</h4>
+                  <h4 class="model-name feature-tab-title font-extrabold text-main-font">ZE-1 Luna</h4>
                   <p class="model-spec">4,890만원~ · 540km</p>
                   <div class="color-swatches" data-target="img-luna" data-prefix="../assets/images/pre-luna-color">
-                    <button type="button" class="swatch active" style="background-color: #00B87A;" data-idx="1" aria-label="Green"></button>
-                    <button type="button" class="swatch" style="background-color: #121212;" data-idx="2" aria-label="Black"></button>
-                    <button type="button" class="swatch" style="background-color: #2563EB;" data-idx="3" aria-label="Blue"></button>
+                    <button type="button" class="swatch swatch--green active" data-idx="1" aria-label="Green"></button>
+                    <button type="button" class="swatch swatch--black" data-idx="2" aria-label="Black"></button>
+                    <button type="button" class="swatch swatch--blue" data-idx="3" aria-label="Blue"></button>
                   </div>
                 </div>
               </div>
@@ -164,12 +163,12 @@
                 </div>
                 <div class="model-info">
                   <p class="model-type">SUV</p>
-                  <h4 class="model-name">ZE-X Terra</h4>
+                  <h4 class="model-name feature-tab-title font-extrabold text-main-font">ZE-X Terra</h4>
                   <p class="model-spec">5,490만원~ · 480km</p>
                   <div class="color-swatches" data-target="img-terra" data-prefix="../assets/images/pre-terra-color">
-                    <button type="button" class="swatch active" style="background-color: #00B87A;" data-idx="1" aria-label="Green"></button>
-                    <button type="button" class="swatch" style="background-color: #121212;" data-idx="2" aria-label="Black"></button>
-                    <button type="button" class="swatch" style="background-color: #2563EB;" data-idx="3" aria-label="Blue"></button>
+                    <button type="button" class="swatch swatch--terra-1 active" data-idx="1" aria-label="컬러 1"></button>
+                    <button type="button" class="swatch swatch--terra-2" data-idx="2" aria-label="컬러 2"></button>
+                    <button type="button" class="swatch swatch--terra-3" data-idx="3" aria-label="컬러 3"></button>
                   </div>
                 </div>
               </div>
@@ -179,57 +178,63 @@
               <span class="status-badge" id="selectedModelBadge">ZE-1 Luna 선택 중</span>
             </div>
           
-            <form action="#" class="support-form pre-reserve-form">
-              <div class="form-row two-col">
-                <div class="input-group">
-                  <label for="resName">이름</label>
-                  <input type="text" id="resName" placeholder="이름을 입력해주세요.">
-                </div>
-                <div class="input-group">
-                  <label for="resPhone">연락처</label>
-                  <input type="text" id="resPhone" placeholder="숫자만 입력해 주세요. (예: 01012345678)">
-                </div>
-              </div>
-              
-              <div class="form-row">
-                <div class="input-group">
-                  <label for="resEmail">이메일</label>
-                  <input type="email" id="resEmail" placeholder="답변 받으실 이메일 주소를 입력해 주세요.">
-                </div>
-              </div>
-          
-              <div class="form-row two-col">
-                <div class="input-group">
-                  <label for="resRegion">거주 지역</label>
-                  <div class="select-wrap">
-                    <select id="resRegion">
-                      <option value="">선택</option>
-                      <option value="seoul">서울</option>
-                      <option value="gyeonggi">경기</option>
-                      <option value="other">기타</option>
-                    </select>
+            <section class="support-section pre-reserve-form-shell" aria-label="사전예약 정보 입력">
+              <form action="#" class="support-form pre-reserve-form" id="preReserveForm" novalidate>
+                <div class="form-row two-col">
+                  <div class="input-group">
+                    <label for="resName" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>이름</label>
+                    <input type="text" id="resName" name="resName" required placeholder="이름을 입력해주세요." autocomplete="name">
+                  </div>
+                  <div class="input-group">
+                    <label for="resPhone" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>연락처</label>
+                    <input type="text" id="resPhone" name="resPhone" required inputmode="numeric" placeholder="숫자만 입력해 주세요. (예: 01012345678)" autocomplete="tel">
                   </div>
                 </div>
-                <div class="input-group">
-                  <label for="resTiming">구매 예정 시기</label>
-                  <div class="select-wrap">
-                    <select id="resTiming">
-                      <option value="">선택</option>
-                      <option value="1m">1개월 이내</option>
-                      <option value="3m">3개월 이내</option>
-                      <option value="6m">6개월 이내</option>
-                    </select>
+                
+                <div class="form-row">
+                  <div class="input-group">
+                    <label for="resEmail" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>이메일</label>
+                    <input type="email" id="resEmail" name="resEmail" required placeholder="답변 받으실 이메일 주소를 입력해 주세요." autocomplete="email">
                   </div>
                 </div>
-              </div>
           
-              <div class="form-row">
-                <div class="input-group">
-                  <label for="resContent">내용</label>
-                  <textarea id="resContent" rows="6" placeholder=""></textarea>
+                <div class="form-row two-col">
+                  <div class="input-group">
+                    <label id="res-region-label" for="resRegion" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>거주 지역</label>
+                    <div class="select-wrap custom-select" data-custom-select>
+                      <select id="resRegion" name="resRegion" required class="custom-select__native" aria-labelledby="res-region-label">
+                        <option value="">선택</option>
+                        <option value="seoul">서울</option>
+                        <option value="gyeonggi">경기</option>
+                        <option value="other">기타</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <label id="res-timing-label" for="resTiming" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>구매 예정 시기</label>
+                    <div class="select-wrap custom-select" data-custom-select>
+                      <select id="resTiming" name="resTiming" required class="custom-select__native" aria-labelledby="res-timing-label">
+                        <option value="">선택</option>
+                        <option value="1m">1개월 이내</option>
+                        <option value="3m">3개월 이내</option>
+                        <option value="6m">6개월 이내</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </form>
+          
+                <div class="form-row">
+                  <div class="input-group">
+                    <label for="resContent" class="type-card-title-20 font-bold text-main-font"><span class="field-required-mark" aria-hidden="true"></span>내용</label>
+                    <textarea id="resContent" name="resContent" rows="6" required placeholder=""></textarea>
+                  </div>
+                </div>
+
+                <div class="submit-wrap">
+                  <button type="submit" class="btn-go-reserve type-bottom-20-semibold text-white">사전예약 바로가기 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
+                </div>
+              </form>
+            </section>
           </div>
           
           <div class="pre-warranty-area anim-rise">
@@ -280,10 +285,7 @@
               <img src="../assets/images/icon/sns-you.svg" width="20" height="20" alt="">
             </a>
           </div>
-          <button type="button" class="btn-catalog">
-            카탈로그 다운로드
-            <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-          </button>
+          <a href="../assets/download.pdf" class="btn-catalog" download>카탈로그 다운로드<i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
         </div>
       </div>
       <div class="footer__row footer__row--links">

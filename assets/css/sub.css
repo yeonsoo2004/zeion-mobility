@@ -238,8 +238,6 @@
 }
 
 .pre-info-section .btn-go-reserve {
-  flex-shrink: 0;
-  align-self: flex-start;
   background: var(--point-blue);
   padding: 0.9375rem 1.875rem;
   text-decoration: none;
@@ -392,10 +390,6 @@
     flex-direction: column;
     gap: 1.875rem;
     align-items: stretch;
-  }
-
-  .pre-info-section .btn-go-reserve {
-    align-self: flex-start;
   }
 
   .pre-info-section .process-item:not(:last-child)::after {
@@ -1395,41 +1389,483 @@ main.model-main {
   color: var(--main-font);
 }
 
-.support-section .support-tabs {
-  display: flex;
-  gap: 1.875rem;
+.support-section .support-lnb {
+  margin-top: 0;
+  box-sizing: border-box;
 }
 
-.support-section .tab-btn {
-  background: none;
-  border: none;
+.support-section .support-lnb .lnb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: clamp(1rem, 3vw, 1.875rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.support-section .support-lnb .lnb-item {
+  margin: 0;
+  padding: 0;
+}
+
+.support-section .support-lnb .lnb-link {
+  display: inline-block;
   font-family: var(--font-primary);
   font-size: 1.125rem;
   font-weight: var(--weight-semibold);
   color: var(--text-slate-muted);
-  padding: 0 0 0.9375rem;
-  cursor: pointer;
-  position: relative;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  box-sizing: border-box;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
 }
 
-.support-section .tab-btn:focus-visible {
+.support-section .support-lnb .lnb-link:hover,
+.support-section .support-lnb .lnb-link:focus-visible {
+  color: var(--main-font);
+}
+
+.support-section .support-lnb .lnb-link:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--point-blue) 45%, transparent);
   outline-offset: 4px;
   border-radius: 2px;
 }
 
-.support-section .tab-btn.active {
+.support-section .support-lnb .lnb-link.active,
+.support-section .support-lnb .lnb-link[aria-current="page"] {
+  color: var(--main-font);
+  border-bottom-color: var(--main-font);
+}
+
+/* ==========================================
+   FAQ (faq.html) — KV · LNB · 아코디언 리스트
+   토큰: common.css
+========================================== */
+.faq-main {
+  padding: 0;
+  background-color: var(--text-white);
+}
+
+.sub-kv-section.faq-kv,
+.sub-kv-section.showroom-kv {
+  height: 500px;
+  min-height: 500px;
+  max-height: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: transparent;
+  background-image: url("../images/faq.avif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.sub-kv-section.faq-kv .kv-overlay,
+.sub-kv-section.showroom-kv .kv-overlay {
+  background: color-mix(in srgb, var(--main-font) 42%, transparent);
+}
+
+.sub-kv-section.faq-kv .inner,
+.sub-kv-section.showroom-kv .inner {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
+  padding-top: calc(80px + env(safe-area-inset-top, 0px));
+  padding-bottom: 2.5rem;
+  box-sizing: border-box;
+}
+
+.sub-kv-section.faq-kv .kv-title,
+.sub-kv-section.showroom-kv .kv-title {
+  position: relative;
+  z-index: 10;
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-primary);
+  font-size: 48px;
+  font-weight: var(--weight-bold);
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  color: var(--text-white);
+}
+
+.faq-main .support-section,
+.showroom-main .support-section {
+  padding: clamp(2rem, 4vw, 5rem) 0 clamp(2.5rem, 5vw, 6rem);
+  background-color: var(--text-white);
+  color: var(--main-font);
+  font-family: var(--font-primary);
+  box-sizing: border-box;
+}
+
+.faq-main .support-section .support-lnb,
+.showroom-main .support-section .support-lnb {
+  margin-bottom: 80px;
+}
+
+.faq-main .support-section .support-lnb .lnb-list,
+.showroom-main .support-section .support-lnb .lnb-list {
+  justify-content: center;
+}
+
+.faq-main .faq-wrap {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.faq-main .faq-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--main-font);
+  border-bottom: 1px solid var(--main-font);
+  box-sizing: border-box;
+}
+
+.faq-main .faq-item {
+  border-bottom: 1px solid var(--text-cool-gray);
+  box-sizing: border-box;
+}
+
+.faq-main .faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-main .faq-q {
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.faq-main .faq-q:hover,
+.faq-main .faq-q:focus-visible {
+  background-color: var(--surface-slate-50);
+}
+
+.faq-main .faq-q:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--point-blue) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.faq-main .category {
+  flex-shrink: 0;
+  width: 80px;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: var(--weight-bold);
+  color: var(--main-font);
+  box-sizing: border-box;
+}
+
+.faq-main .question {
+  flex: 1 1 0;
+  min-width: 0;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: var(--weight-medium);
+  color: var(--main-font);
+  line-height: 1.45;
+}
+
+.faq-main .icon-arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+  color: var(--text-slate-muted);
+  font-size: 0.875rem;
+  transition: transform 0.3s ease;
+}
+
+.faq-main .faq-a {
+  display: none;
+  background-color: var(--surface-slate-50);
+  padding: 30px 40px 30px 100px;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  font-weight: var(--weight-regular);
+  line-height: 1.6;
+  color: var(--text-slate-600);
+  border-top: 1px solid var(--border-slate-300);
+  box-sizing: border-box;
+}
+
+.faq-main .faq-a p {
+  margin: 0;
+}
+
+.faq-main .faq-item.active .icon-arrow {
+  transform: rotate(180deg);
+}
+
+.faq-main .faq-notice {
+  margin: 20px 0 0;
+  padding-left: 20px;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  color: var(--text-slate-600);
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   전시장 찾기 (support-showroom.html)
+   KV: faq-kv와 동일 토큰 · LNB: support-lnb 공통
+========================================== */
+.showroom-main {
+  padding: 0;
+  background-color: var(--text-white);
+}
+
+.showroom-main .showroom-policy-area {
+  margin-bottom: 150px;
+  box-sizing: border-box;
+}
+
+.showroom-main .policy-main-title {
+  margin: 0 0 50px;
+  font-family: var(--font-primary);
+  font-size: 32px;
+  font-weight: var(--weight-extrabold);
+  line-height: 1.4;
+  color: var(--main-font);
+  box-sizing: border-box;
+}
+
+.showroom-main .policy-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  list-style: none;
+  margin: 0 0 30px;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.showroom-main .policy-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 30px 20px;
+  border: 1px solid var(--text-cool-gray);
+  background-color: var(--text-white);
+  box-sizing: border-box;
+}
+
+.showroom-main .policy-card .icon-policy {
+  flex-shrink: 0;
+  font-size: 32px;
+  color: var(--point-blue);
+}
+
+.showroom-main .policy-card .text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.showroom-main .policy-card .eng {
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: var(--weight-extrabold);
   color: var(--main-font);
 }
 
-.support-section .tab-btn.active::after {
-  content: "";
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--main-font);
+.showroom-main .policy-card .kor {
+  font-family: var(--font-primary);
+  font-size: 13px;
+  color: var(--text-slate-600);
+}
+
+.showroom-main .policy-desc {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--gray-font);
+}
+
+.showroom-main .showroom-map-area {
+  box-sizing: border-box;
+}
+
+.showroom-main .map-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+}
+
+.showroom-main .map-title {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: 28px;
+  font-weight: var(--weight-bold);
+  color: var(--main-font);
+}
+
+.showroom-main .btn-blue-solid {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  font-weight: var(--weight-semibold);
+  color: var(--text-white);
+  text-decoration: none;
+  background-color: var(--point-blue);
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: opacity 0.3s ease;
+}
+
+.showroom-main .btn-blue-solid:hover,
+.showroom-main .btn-blue-solid:focus-visible {
+  opacity: 0.92;
+}
+
+.showroom-main .btn-blue-solid:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--point-blue) 45%, transparent);
+  outline-offset: 3px;
+}
+
+.showroom-main .map-container {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--text-cool-gray);
+  box-sizing: border-box;
+}
+
+.showroom-main .map-info-card {
+  flex-shrink: 0;
+  width: 320px;
+  padding: 40px 30px;
+  background-color: var(--text-white);
+  border-right: 1px solid var(--text-cool-gray);
+  box-sizing: border-box;
+}
+
+.showroom-main .branch-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.showroom-main .badge-direct {
+  padding: 4px 8px;
+  font-family: var(--font-primary);
+  font-size: 12px;
+  font-weight: var(--weight-bold);
+  color: var(--text-white);
+  background-color: var(--point-blue);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.showroom-main .branch-name {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: 20px;
+  font-weight: var(--weight-extrabold);
+  color: var(--main-font);
+}
+
+.showroom-main .branch-details p {
+  margin: 0 0 10px;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  color: var(--gray-font);
+  line-height: 1.6;
+}
+
+.showroom-main .branch-details p:last-child {
+  margin-bottom: 0;
+}
+
+.showroom-main .branch-details .phone {
+  font-weight: var(--weight-semibold);
+  color: var(--main-font);
+}
+
+.showroom-main .branch-notice {
+  margin: 40px 0 0;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-slate-muted);
+}
+
+.showroom-main .map-view {
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+  height: 500px;
+  background-color: var(--surface-slate-50);
+  box-sizing: border-box;
+}
+
+.showroom-main .map-placeholder-text {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  color: var(--text-slate-muted);
+}
+
+@media screen and (max-width: 768px) {
+  .faq-main .faq-q {
+    padding: 20px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .faq-main .category {
+    width: 100%;
+  }
+
+  .faq-main .icon-arrow {
+    margin-left: 0;
+    align-self: flex-end;
+  }
+
+  .faq-main .faq-a {
+    padding: 24px 20px 24px 20px;
+  }
+
+  .sub-kv-section.faq-kv .kv-title,
+  .sub-kv-section.showroom-kv .kv-title {
+    font-size: clamp(1.75rem, 5vw + 1rem, 2.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-main .faq-q {
+    transition: none;
+  }
+
+  .faq-main .icon-arrow {
+    transition: none;
+  }
 }
 
 .support-section .support-aside-sticky {
@@ -1496,12 +1932,11 @@ main.model-main {
 }
 
 .support-section .input-group label {
-  display: block;
-  font-family: var(--font-primary);
-  font-size: 0.9375rem;
-  font-weight: var(--weight-bold);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
   margin-bottom: 0.9375rem;
-  color: var(--main-font);
 }
 
 .support-section .support-form input[type="text"],
@@ -1870,6 +2305,9 @@ main.model-main {
 }
 
 .support-section .custom-checkbox .check-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
   font-size: clamp(0.875rem, 0.5vw + 0.8rem, 0.9375rem);
   line-height: 1.5;
   color: var(--main-font);
@@ -4190,7 +4628,318 @@ main.model-main {
   }
 }
 
+/* ==========================================
+   Pre-reservation — 모델 선택 · 컬러 스와치 · 사전예약 폼
+   색·타이포: common.css 토큰 | 폼: .support-section .support-form 재사용
+========================================== */
+.pre-info-section .pre-form-area {
+  margin-bottom: 120px;
+  box-sizing: border-box;
+}
+
+.pre-info-section .pre-reserve-form-shell {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.pre-info-section .pre-reserve-form-shell .submit-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  box-sizing: border-box;
+}
+
+.pre-info-section .pre-reserve-form-shell .submit-wrap .btn-go-reserve {
+  margin-inline: auto;
+}
+
+.pre-info-section button.btn-go-reserve {
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.pre-info-section .model-select-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 80px;
+  box-sizing: border-box;
+}
+
+.pre-info-section .model-card {
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  margin: 0;
+  background-color: var(--text-white);
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.pre-info-section .model-card.active {
+  border-color: var(--point-blue);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--point-blue) 25%, transparent);
+}
+
+.pre-info-section .model-card:not(.active):hover {
+  background-color: color-mix(in srgb, var(--main-font) 6%, var(--text-white));
+}
+
+.pre-info-section .model-card:not(.active):hover .model-img-box {
+  background-color: color-mix(in srgb, var(--main-font) 8%, var(--text-cool-gray));
+}
+
+.pre-info-section .model-img-box {
+  background-color: var(--text-cool-gray);
+  aspect-ratio: 4 / 3;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.pre-info-section .model-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pre-info-section .model-type {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+  color: var(--main-font);
+}
+
+.pre-info-section .model-name {
+  margin: 4px 0;
+}
+
+.pre-info-section .model-spec {
+  margin: 0 0 15px;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  font-weight: var(--weight-regular);
+  color: var(--text-slate-600);
+}
+
+.pre-info-section .color-swatches {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.pre-info-section .swatch {
+  width: 24px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.pre-info-section .swatch--green {
+  background-color: #2C2E33;
+}
+
+.pre-info-section .swatch--black {
+  background-color: #D1D9E1;
+}
+
+.pre-info-section .swatch--blue {
+  background-color: #ddc9b4;
+}
+
+/* ZE-X Terra(SUV) 전용 스와치 — 세단과 구분 */
+.pre-info-section .swatch--terra-1 {
+  background-color: #335c4e;
+}
+
+.pre-info-section .swatch--terra-2 {
+  background-color: #2c2e33;
+}
+
+.pre-info-section .swatch--terra-3 {
+  background-color: #d1d9e1;
+}
+
+.pre-info-section .swatch:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+.pre-info-section .swatch:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.85) brightness(0.92);
+  transform: none;
+}
+
+.pre-info-section .swatch:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--point-blue) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.pre-info-section .swatch.active {
+  outline: 2px solid var(--main-font);
+  outline-offset: 2px;
+}
+
+.pre-info-section .selected-status-wrap {
+  margin-bottom: 40px;
+  box-sizing: border-box;
+}
+
+.pre-info-section .status-badge {
+  background-color: var(--point-blue);
+  color: var(--text-white);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: var(--weight-bold);
+  padding: 10px 20px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1920px) {
+  /* 와이드 기준: 2열 · 40px 간격 유지 */
+  .pre-info-section .model-select-wrap {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+/* 사전예약 안내: common `.feature-tab-title`(32px) 기준 구간 스케일 */
+.pre-info-section .pre-process-area .feature-tab-title,
+.pre-info-section .pre-form-area .feature-tab-title,
+.pre-info-section .pre-warranty-area .feature-tab-title {
+  font-size: 32px;
+}
+
+@media screen and (max-width: 1280px) {
+  .pre-info-section .model-select-wrap {
+    gap: 30px;
+  }
+
+  .pre-info-section .pre-process-area .feature-tab-title,
+  .pre-info-section .pre-form-area .feature-tab-title,
+  .pre-info-section .pre-warranty-area .feature-tab-title {
+    font-size: clamp(1.625rem, 1.2vw + 1.25rem, 2rem);
+  }
+
+  .showroom-main .policy-cards {
+    gap: 15px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .pre-info-section .pre-reserve-form-shell .form-row.two-col {
+    gap: 20px;
+  }
+
+  .pre-info-section .pre-process-area .feature-tab-title,
+  .pre-info-section .pre-form-area .feature-tab-title,
+  .pre-info-section .pre-warranty-area .feature-tab-title {
+    font-size: clamp(1.5rem, 2vw + 1rem, 1.75rem);
+  }
+
+  .showroom-main .policy-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .showroom-main .map-container {
+    flex-direction: column;
+  }
+
+  .showroom-main .map-info-card {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--text-cool-gray);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .pre-info-section .model-select-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .pre-info-section .pre-reserve-form-shell .form-row.two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .pre-info-section .pre-process-area .feature-tab-title,
+  .pre-info-section .pre-form-area .feature-tab-title,
+  .pre-info-section .pre-warranty-area .feature-tab-title {
+    font-size: clamp(1.375rem, 3.5vw + 0.65rem, 1.625rem);
+  }
+
+  .support-section .input-group label.type-card-title-20 {
+    font-size: clamp(1.0625rem, 1.2vw + 0.9rem, 1.25rem);
+  }
+
+  .showroom-main .map-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .showroom-main .policy-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .pre-info-section .pre-process-area .feature-tab-title,
+  .pre-info-section .pre-form-area .feature-tab-title,
+  .pre-info-section .pre-warranty-area .feature-tab-title {
+    font-size: clamp(1.25rem, 4.5vw + 0.5rem, 1.5rem);
+  }
+
+  .pre-info-section .status-badge {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+
+  .support-section .input-group label.type-card-title-20 {
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .showroom-main .policy-main-title {
+    font-size: 24px;
+  }
+
+  .showroom-main .map-view {
+    height: 350px;
+    min-height: 350px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .pre-info-section .swatch {
+    transition: none;
+  }
+
+  .pre-info-section .swatch:hover:not(:disabled) {
+    transform: none;
+  }
+
   .sub-kv-section.model-kv .kv-content,
   .sub-kv-section.pre-kv .kv-content {
     transform: none;

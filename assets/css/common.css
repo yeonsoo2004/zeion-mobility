@@ -23,6 +23,8 @@
       --surface-slate-50: #f8fafc;
       /* 폼·구분선 (라이트 서브페이지) */
       --border-slate-300: #cbd5e1;
+      /* 폼 필수 표시 (접근성·일관 색상) */
+      --required-mark: #e11d48;
       --text-gray-888: #888888;
       --text-lnb-item: rgba(226, 232, 240, 0.72);
       --text-drawer-lnb: rgba(226, 232, 240, 0.9);
@@ -143,6 +145,18 @@
     .text-gray-888 { color: var(--text-gray-888); }
     .text-lnb-item { color: var(--text-lnb-item); }
     .text-drawer-lnb { color: var(--text-drawer-lnb); }
+
+    /* 폼 필수 항목 표시 (빨간 원) */
+    .field-required-mark {
+      display: inline-block;
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      margin-right: 0.35em;
+      border-radius: 50%;
+      background-color: var(--required-mark);
+      vertical-align: 0.12em;
+    }
 
     /* GNB·드로어 1차 링크 (20px / regular) */
     .type-nav-20 {
