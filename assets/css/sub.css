@@ -696,6 +696,116 @@ main.model-main {
   padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
 }
 
+/* ==========================================
+   Model — 360° vehicle viewer (luna / terra)
+   Tokens: common.css
+========================================== */
+.model-360-section {
+  padding: 200px 0;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+.model-360-section .inner {
+  box-sizing: border-box;
+}
+
+.model-360-section .spec-title {
+  margin: 0 0 30px;
+  font-family: var(--font-primary);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: var(--line-height-heading);
+  letter-spacing: -0.02em;
+  color: var(--main-font);
+}
+
+.model-360-section .viewer-360-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  box-sizing: border-box;
+}
+
+.model-360-section .viewer-360-wrap:active {
+  cursor: grabbing;
+}
+
+.model-360-section .viewer-frames {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.model-360-section .viewer-frames .frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.model-360-section .viewer-frames .frame.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+
+.model-360-section .viewer-guide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.model-360-section .viewer-360-wrap.is-interacted .viewer-guide {
+  opacity: 0;
+}
+
+.model-360-section .guide-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  font-size: 50px;
+  color: var(--main-font);
+}
+
+.model-360-section .guide-desc {
+  margin: 0;
+  padding: 8px 16px;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  font-weight: var(--weight-medium);
+  line-height: 1.45;
+  color: var(--main-font);
+  background: color-mix(in srgb, var(--text-white) 70%, transparent);
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  word-break: keep-all;
+}
+
 .model-feature-section {
   /* 세로 패딩 = 카드 간격과 동일 값으로 반응형 통일 */
   --model-feature-stack-gap: clamp(1.125rem, 2.2vw, 1.25rem);
@@ -4127,6 +4237,23 @@ main.model-main {
 
   .model-feature-section {
     --model-feature-stack-gap: clamp(1rem, 3.2vw, 1.25rem);
+  }
+
+  .model-360-section {
+    padding: 100px 0;
+  }
+
+  .model-360-section .spec-title {
+    font-size: clamp(1.375rem, 4vw + 0.5rem, 1.75rem);
+    margin-bottom: 28px;
+  }
+
+  .model-360-section .guide-icon {
+    font-size: 40px;
+  }
+
+  .model-360-section .guide-desc {
+    font-size: 13px;
   }
 
   .model-interior-section {

@@ -817,3 +817,150 @@
     });
   });
 })();
+
+/**
+ * 헤더 차량 아이콘 — 구매 상담 빠른 문의 모달 (전 페이지 · style.css)
+ */
+(function () {
+  var triggers = document.querySelectorAll(".site-header__navi-car");
+  if (!triggers.length) return;
+
+  var MODAL_ID = "navi-consult-modal";
+  var DIALOG_ID = "navi-consult-modal-dialog";
+
+  function supportPageHref() {
+    var path = (window.location.pathname || "").replace(/\\/g, "/");
+    if (path.indexOf("/subpage/") !== -1) return "support.html";
+    if (path.indexOf("subpage/") !== -1) return "support.html";
+    return "subpage/support.html";
+  }
+
+  function ensureModal() {
+    var existing = document.getElementById(MODAL_ID);
+    if (existing) return existing;
+
+    var wrap = document.createElement("div");
+    wrap.id = MODAL_ID;
+    wrap.className = "navi-consult-modal";
+    wrap.setAttribute("hidden", "");
+    wrap.setAttribute("aria-hidden", "true");
+
+    wrap.innerHTML =
+      '<button type="button" class="navi-consult-modal__backdrop" data-navi-consult-close aria-label="상담 창 닫기"></button>' +
+      '<div id="' +
+      DIALOG_ID +
+      '" class="navi-consult-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="navi-consult-modal-title" tabindex="-1">' +
+      '<button type="button" class="navi-consult-modal__close" data-navi-consult-close aria-label="닫기">' +
+      '<i class="fa-solid fa-xmark" aria-hidden="true"></i>' +
+      "</button>" +
+      '<h2 id="navi-consult-modal-title" class="navi-consult-modal__title">구매 상담</h2>' +
+      '<p class="navi-consult-modal__lead">상담을 남겨주시면 담당자가 확인 후 연락드리겠습니다.</p>' +
+      '<form class="navi-consult-modal__form" id="navi-consult-form" action="#" novalidate>' +
+      '<div class="navi-consult-modal__field">' +
+      '<label for="navi-consult-name">이름 <span class="req" aria-hidden="true">*</span></label>' +
+      '<input type="text" id="navi-consult-name" name="name" required autocomplete="name" placeholder="이름을 입력해 주세요">' +
+      "</div>" +
+      '<div class="navi-consult-modal__field">' +
+      '<label for="navi-consult-phone">연락처 <span class="req" aria-hidden="true">*</span></label>' +
+      '<input type="tel" id="navi-consult-phone" name="phone" required inputmode="numeric" autocomplete="tel" placeholder="숫자만 입력 (예: 01012345678)">' +
+      "</div>" +
+      '<div class="navi-consult-modal__field">' +
+      '<label for="navi-consult-email">이메일</label>' +
+      '<input type="email" id="navi-consult-email" name="email" autocomplete="email" placeholder="답변 받으실 이메일 (선택)">' +
+      "</div>" +
+      '<div class="navi-consult-modal__field">' +
+      '<label for="navi-consult-msg">문의 내용 <span class="req" aria-hidden="true">*</span></label>' +
+      '<textarea id="navi-consult-msg" name="message" required rows="4" placeholder="문의 내용을 입력해 주세요"></textarea>' +
+      "</div>" +
+      '<label class="navi-consult-modal__agree">' +
+      '<input type="checkbox" id="navi-consult-agree" name="privacy" value="1" required>' +
+      "<span>개인정보 수집·이용에 동의합니다. (문의 처리 목적, 처리 완료 후 파기)</span>" +
+      "</label>" +
+      '<button type="submit" class="navi-consult-modal__submit">상담 요청하기</button>' +
+      "</form>" +
+      '<p class="navi-consult-modal__more"><a href="#">자세한 문의는 문의하기 페이지에서</a></p>' +
+      "</div>";
+
+    document.body.appendChild(wrap);
+
+    var more = wrap.querySelector(".navi-consult-modal__more a");
+    if (more) more.href = supportPageHref();
+
+    return wrap;
+  }
+
+  var modal = ensureModal();
+  var dialog = document.getElementById(DIALOG_ID);
+  var form = document.getElementById("navi-consult-form");
+  var lastTrigger = null;
+
+  function isOpen() {
+    return modal.classList.contains("is-open");
+  }
+
+  function openModal(trigger) {
+    lastTrigger = trigger || null;
+    modal.classList.add("is-open");
+    modal.removeAttribute("hidden");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("navi-consult-modal-open");
+    if (trigger) trigger.setAttribute("aria-expanded", "true");
+    window.setTimeout(function () {
+      if (dialog && typeof dialog.focus === "function") dialog.focus();
+    }, 10);
+  }
+
+  function closeModal() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("hidden", "");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("navi-consult-modal-open");
+    var triggers = document.querySelectorAll(".site-header__navi-car");
+    var i;
+    for (i = 0; i < triggers.length; i++) {
+      triggers[i].setAttribute("aria-expanded", "false");
+    }
+    if (form && typeof form.reset === "function") form.reset();
+    if (lastTrigger && typeof lastTrigger.focus === "function") {
+      lastTrigger.focus();
+    }
+    lastTrigger = null;
+  }
+
+  function onNaviCarClick(e) {
+    var t = e.currentTarget;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    openModal(t);
+  }
+
+  var k;
+  for (k = 0; k < triggers.length; k++) {
+    triggers[k].setAttribute("aria-haspopup", "dialog");
+    triggers[k].setAttribute("aria-expanded", "false");
+    triggers[k].setAttribute("aria-controls", DIALOG_ID);
+    triggers[k].addEventListener("click", onNaviCarClick);
+  }
+
+  modal.addEventListener("click", function (e) {
+    if (e.target.closest("[data-navi-consult-close]")) closeModal();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && isOpen()) {
+      e.preventDefault();
+      closeModal();
+    }
+  });
+
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      closeModal();
+    });
+  }
+})();

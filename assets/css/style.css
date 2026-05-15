@@ -292,6 +292,224 @@ body.mobile-nav-open {
   border-radius: 4px;
 }
 
+/* 헤더 차량 아이콘 — 구매 상담 모달 (토큰: common.css) */
+.navi-consult-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  box-sizing: border-box;
+}
+
+.navi-consult-modal.is-open {
+  display: flex;
+}
+
+.navi-consult-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--main-font) 55%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.navi-consult-modal__dialog {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  max-height: min(90vh, 720px);
+  overflow: auto;
+  margin: auto;
+  padding: 28px 26px 24px;
+  border-radius: 14px;
+  background: var(--text-white);
+  color: var(--main-font);
+  box-shadow:
+    0 24px 48px color-mix(in srgb, var(--main-font) 18%, transparent),
+    0 0 0 1px var(--text-cool-gray);
+  box-sizing: border-box;
+  font-family: var(--font-primary);
+}
+
+.navi-consult-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--main-font);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.navi-consult-modal__close:hover,
+.navi-consult-modal__close:focus-visible {
+  background: var(--surface-slate-50);
+  color: var(--point-blue);
+}
+
+.navi-consult-modal__close:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--point-blue) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.navi-consult-modal__title {
+  margin: 0 44px 8px 0;
+  font-size: clamp(1.25rem, 2vw + 0.75rem, 1.5rem);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+  color: var(--main-font);
+}
+
+.navi-consult-modal__lead {
+  margin: 0 0 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--text-cool-gray);
+  font-size: 0.9375rem;
+  font-weight: var(--weight-medium);
+  line-height: 1.55;
+  color: var(--text-slate-600);
+}
+
+.navi-consult-modal__field {
+  margin-bottom: 16px;
+}
+
+.navi-consult-modal__field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+  font-weight: var(--weight-bold);
+  color: var(--main-font);
+}
+
+.navi-consult-modal__field .req {
+  color: var(--required-mark);
+  font-weight: var(--weight-bold);
+}
+
+.navi-consult-modal__field input,
+.navi-consult-modal__field textarea {
+  width: 100%;
+  margin: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--border-slate-300);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--main-font);
+  background: var(--text-white);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navi-consult-modal__field input::placeholder,
+.navi-consult-modal__field textarea::placeholder {
+  color: var(--text-slate-muted);
+}
+
+.navi-consult-modal__field input:focus-visible,
+.navi-consult-modal__field textarea:focus-visible {
+  outline: none;
+  border-color: var(--point-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--point-blue) 22%, transparent);
+}
+
+.navi-consult-modal__field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.navi-consult-modal__agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 18px 0 20px;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--gray-font);
+}
+
+.navi-consult-modal__agree input {
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--point-blue);
+}
+
+.navi-consult-modal__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 3rem;
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--text-white);
+  background: var(--point-blue);
+  cursor: pointer;
+  transition: background-color 0.25s ease, transform 0.15s ease;
+  box-sizing: border-box;
+}
+
+.navi-consult-modal__submit:hover,
+.navi-consult-modal__submit:focus-visible {
+  background: color-mix(in srgb, var(--point-blue) 82%, #000000);
+}
+
+.navi-consult-modal__submit:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--point-blue) 40%, transparent);
+  outline-offset: 2px;
+}
+
+.navi-consult-modal__submit:active {
+  transform: translateY(1px);
+}
+
+.navi-consult-modal__more {
+  margin: 16px 0 0;
+  text-align: center;
+  font-size: 0.8125rem;
+}
+
+.navi-consult-modal__more a {
+  color: var(--point-blue);
+  font-weight: var(--weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.navi-consult-modal__more a:hover,
+.navi-consult-modal__more a:focus-visible {
+  color: color-mix(in srgb, var(--point-blue) 75%, var(--main-font));
+}
+
+body.navi-consult-modal-open {
+  overflow: hidden;
+}
+
 /* 햄버거 — 데스크톱에서 숨김 */
 .site-header__menu-toggle {
   display: none;
