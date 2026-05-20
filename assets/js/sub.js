@@ -76,11 +76,11 @@
 
       var kvCopyEls = isModelKv
         ? gsap.utils.toArray(
-            ".sub-kv-section.model-kv .breadcrumb, .sub-kv-section.model-kv .model-title-group, .sub-kv-section.model-kv .model-stats-grid"
-          )
+          ".sub-kv-section.model-kv .breadcrumb, .sub-kv-section.model-kv .model-title-group, .sub-kv-section.model-kv .model-stats-grid"
+        )
         : gsap.utils.toArray(
-            ".sub-kv-section .breadcrumb, .sub-kv-section .kv-desc, .sub-kv-section .kv-title"
-          );
+          ".sub-kv-section .breadcrumb, .sub-kv-section .kv-desc, .sub-kv-section .kv-title"
+        );
 
       if (kvCopyEls.length) {
         gsap.fromTo(
@@ -868,7 +868,7 @@
     if (video.paused) {
       var p = video.play();
       if (p && typeof p.catch === "function") {
-        p.catch(function () {});
+        p.catch(function () { });
       }
     } else {
       video.pause();
@@ -928,7 +928,7 @@
           video.muted = true;
           var p2 = video.play();
           if (p2 && typeof p2.catch === "function") {
-            p2.catch(function () {});
+            p2.catch(function () { });
           }
         });
       }
@@ -994,7 +994,7 @@
     bodyScrollLock(true);
     var playPromise = modalVideo.play();
     if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(function () {});
+      playPromise.catch(function () { });
     }
   }
 
@@ -1631,3 +1631,28 @@ if (typeof jQuery !== "undefined") {
   viewer.setAttribute("aria-label", "360도 차량 뷰어. 좌우로 드래그하여 회전할 수 있습니다.");
 })();
 
+// api
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+  mapOption = {
+    center: new kakao.maps.LatLng(37.452105, 126.702796), // 지도의 중심좌표
+    level: 4 // 지도의 확대 레벨
+  };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+var imageSrc = 'https://www.pngarts.com/files/3/Map-Marker-Pin-PNG-Transparent-Image.png', // 마커이미지의 주소입니다    
+  imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+  imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+  markerPosition = new kakao.maps.LatLng(37.452105, 126.702796); // 마커가 표시될 위치입니다
+
+// 마커를 생성합니다
+var marker = new kakao.maps.Marker({
+  position: markerPosition,
+  image: markerImage // 마커이미지 설정 
+});
+
+// 마커가 지도 위에 표시되도록 설정합니다
+marker.setMap(map);
