@@ -5,7 +5,6 @@
  * - Pre-reservation info: .pre-info-section .anim-rise ScrollTrigger
  * - FAQ (faq.html): LNB·리스트 ScrollTrigger(하단→상단) + jQuery 아코디언(slideDown/slideUp·slideToggle)
  * - Support (support.html): KV .anim-rise + 폼 ScrollTrigger + 문의유형 커스텀 셀렉트
- * - Model 360 viewer: 24프레임 드래그·터치 + 프리로드 (luna/terra)
  * - Model feature & interior 등 스크롤 등장: brand KV와 동일 (y 40, 0.95s, power2.out, autoAlpha)
  * - Model custom video (luna): .model-custom-video-section .video-container.anim-rise ScrollTrigger + #customVideo API
  * - Model spec (luna/terra): 제목 → 좌·우 컬럼 동시 등장 → 노트 (스크롤 트리거 1개)
@@ -1524,112 +1523,6 @@ if (typeof jQuery !== "undefined") {
     });
   });
 }
-
-/**
- * Model — 360° image-sequence viewer (luna / terra)
- * 차량 사이트 방식: 드래그 거리 → 프레임 인덱스 직접 매핑 (페이드 없음)
- */
-(function () {
-  var viewer = document.querySelector(".model-360-section .viewer-360-wrap");
-  if (!viewer) return;
-
-  var frames = viewer.querySelectorAll(".viewer-frames .frame");
-  var frameCount = frames.length;
-  if (!frameCount) return;
-
-  /* 1보다 크면 같은 드래그 거리에서 더 천천히 회전 */
-  var DRAG_SENSITIVITY = 1.35;
-  var currentIndex = 0;
-  var isDragging = false;
-  var dragStartX = 0;
-  var dragStartIndex = 0;
-
-  function normalizeIndex(i) {
-    return ((i % frameCount) + frameCount) % frameCount;
-  }
-
-  function pixelsPerFrame() {
-    var w = viewer.offsetWidth || 1;
-    return Math.max(8, (w / frameCount) * DRAG_SENSITIVITY);
-  }
-
-  function setFrame(index) {
-    var next = normalizeIndex(index);
-    if (next === currentIndex) return;
-    currentIndex = next;
-    var i;
-    for (i = 0; i < frameCount; i++) {
-      frames[i].classList.toggle("active", i === currentIndex);
-    }
-  }
-
-  function frameFromDrag(clientX) {
-    var delta = dragStartX - clientX;
-    var offset = Math.round(delta / pixelsPerFrame());
-    return normalizeIndex(dragStartIndex + offset);
-  }
-
-  function preloadFrames() {
-    var i;
-    for (i = 0; i < frameCount; i++) {
-      var src = frames[i].getAttribute("src");
-      if (!src) continue;
-      var img = new Image();
-      img.decoding = "async";
-      img.src = src;
-    }
-  }
-
-  function pointerX(e) {
-    if (e.touches && e.touches.length) return e.touches[0].clientX;
-    if (e.changedTouches && e.changedTouches.length) return e.changedTouches[0].clientX;
-    return e.clientX;
-  }
-
-  function onPointerDown(e) {
-    if (e.type === "mousedown" && e.button !== 0) return;
-    isDragging = true;
-    dragStartX = pointerX(e);
-    dragStartIndex = currentIndex;
-    viewer.classList.add("is-interacted");
-    if (e.type === "touchstart") e.preventDefault();
-  }
-
-  function onPointerMove(e) {
-    if (!isDragging) return;
-    setFrame(frameFromDrag(pointerX(e)));
-    if (e.type === "touchmove") e.preventDefault();
-  }
-
-  function onPointerUp(e) {
-    if (isDragging && e) {
-      setFrame(frameFromDrag(pointerX(e)));
-    }
-    isDragging = false;
-  }
-
-  preloadFrames();
-
-  var active = viewer.querySelector(".viewer-frames .frame.active");
-  if (active) {
-    var idx = parseInt(active.getAttribute("data-index"), 10);
-    if (!isNaN(idx)) currentIndex = normalizeIndex(idx);
-  }
-  setFrame(currentIndex);
-
-  viewer.addEventListener("mousedown", onPointerDown);
-  viewer.addEventListener("mousemove", onPointerMove);
-  viewer.addEventListener("mouseup", onPointerUp);
-  viewer.addEventListener("mouseleave", onPointerUp);
-
-  viewer.addEventListener("touchstart", onPointerDown, { passive: false });
-  viewer.addEventListener("touchmove", onPointerMove, { passive: false });
-  viewer.addEventListener("touchend", onPointerUp);
-  viewer.addEventListener("touchcancel", onPointerUp);
-
-  viewer.setAttribute("role", "img");
-  viewer.setAttribute("aria-label", "360도 차량 뷰어. 좌우로 드래그하여 회전할 수 있습니다.");
-})();
 
 // api
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

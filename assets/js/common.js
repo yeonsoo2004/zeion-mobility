@@ -964,3 +964,162 @@
     });
   }
 })();
+
+/**
+ * 푸터 — 이용약관 · 개인정보 처리방침 모달 (전 페이지)
+ */
+(function () {
+  var MODAL_ID = "legal-modal";
+  var DIALOG_ID = "legal-modal-dialog";
+  var TITLE_ID = "legal-modal-title";
+
+  var LEGAL_CONTENT = {
+    terms: {
+      title: "이용약관",
+      updated: "시행일: 2026년 1월 1일",
+      html:
+        "<h3>제1조 (목적)</h3>" +
+        "<p>본 약관은 ZEION MOTORS CO., LTD.(이하 \"회사\")가 운영하는 웹사이트 및 관련 서비스(이하 \"서비스\")의 이용 조건 및 절차, 회사와 이용자의 권리·의무를 규정함을 목적으로 합니다.</p>" +
+        "<h3>제2조 (약관의 효력 및 변경)</h3>" +
+        "<p>본 약관은 서비스 화면에 게시하거나 기타 방법으로 공지함으로써 효력이 발생합니다. 회사는 관련 법령을 위반하지 않는 범위에서 약관을 변경할 수 있으며, 변경 시 시행일 7일 전부터 공지합니다.</p>" +
+        "<h3>제3조 (서비스의 제공)</h3>" +
+        "<p>회사는 다음과 같은 서비스를 제공합니다.</p>" +
+        "<ul>" +
+        "<li>브랜드·모델 정보 및 카탈로그 제공</li>" +
+        "<li>사전예약, 구매 상담, 고객 문의 접수</li>" +
+        "<li>기타 회사가 정하는 서비스</li>" +
+        "</ul>" +
+        "<h3>제4조 (이용자의 의무)</h3>" +
+        "<p>이용자는 관계 법령, 본 약관 및 서비스 이용 안내를 준수해야 하며, 타인의 정보를 도용하거나 서비스 운영을 방해하는 행위를 해서는 안 됩니다.</p>" +
+        "<h3>제5조 (면책)</h3>" +
+        "<p>회사는 천재지변, 시스템 점검, 통신 장애 등 불가항력으로 인한 서비스 중단에 대해 책임을 지지 않습니다. 단, 회사의 고의 또는 중대한 과실이 있는 경우는 예외로 합니다.</p>" +
+        "<h3>제6조 (문의)</h3>" +
+        "<p>서비스 이용과 관련한 문의는 support@zeion.com 으로 연락해 주시기 바랍니다.</p>",
+    },
+    privacy: {
+      title: "개인정보 처리방침",
+      updated: "시행일: 2026년 1월 1일",
+      html:
+        "<p>ZEION MOTORS CO., LTD.(이하 \"회사\")는 개인정보 보호법 등 관련 법령을 준수하며, 이용자의 개인정보를 보호하기 위해 다음과 같이 개인정보 처리방침을 수립·공개합니다.</p>" +
+        "<h3>1. 수집하는 개인정보 항목</h3>" +
+        "<ul>" +
+        "<li>필수: 이름, 연락처, 이메일, 문의 내용</li>" +
+        "<li>선택: 회사명, 문의 유형</li>" +
+        "<li>자동 수집: 접속 로그, 쿠키, IP 주소(서비스 개선 목적)</li>" +
+        "</ul>" +
+        "<h3>2. 개인정보의 수집·이용 목적</h3>" +
+        "<ul>" +
+        "<li>사전예약·구매 상담·고객 문의 응대 및 처리 결과 회신</li>" +
+        "<li>서비스 품질 개선 및 통계 분석</li>" +
+        "<li>관련 법령에 따른 의무 이행</li>" +
+        "</ul>" +
+        "<h3>3. 보유 및 이용 기간</h3>" +
+        "<p>수집 목적 달성 후 지체 없이 파기합니다. 다만, 관계 법령에 따라 보존이 필요한 경우 해당 기간 동안 보관합니다.</p>" +
+        "<h3>4. 제3자 제공</h3>" +
+        "<p>회사는 이용자의 동의 없이 개인정보를 외부에 제공하지 않습니다. 법령에 따른 요청이 있는 경우 예외로 합니다.</p>" +
+        "<h3>5. 이용자의 권리</h3>" +
+        "<p>이용자는 언제든지 개인정보 열람·정정·삭제·처리 정지를 요청할 수 있으며, support@zeion.com 으로 요청하시면 지체 없이 조치합니다.</p>" +
+        "<h3>6. 개인정보 보호책임자</h3>" +
+        "<p>담당 부서: 고객지원팀 / 이메일: support@zeion.com</p>",
+    },
+  };
+
+  function ensureModal() {
+    var existing = document.getElementById(MODAL_ID);
+    if (existing) return existing;
+
+    var wrap = document.createElement("div");
+    wrap.id = MODAL_ID;
+    wrap.className = "legal-modal";
+    wrap.setAttribute("hidden", "");
+    wrap.setAttribute("aria-hidden", "true");
+
+    wrap.innerHTML =
+      '<button type="button" class="legal-modal__backdrop" data-legal-close aria-label="닫기"></button>' +
+      '<div id="' +
+      DIALOG_ID +
+      '" class="legal-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="' +
+      TITLE_ID +
+      '" tabindex="-1">' +
+      '<button type="button" class="legal-modal__close" data-legal-close aria-label="닫기">' +
+      '<i class="fa-solid fa-xmark" aria-hidden="true"></i>' +
+      "</button>" +
+      '<div class="legal-modal__head">' +
+      '<h2 id="' +
+      TITLE_ID +
+      '" class="legal-modal__title"></h2>' +
+      '<p class="legal-modal__updated"></p>' +
+      "</div>" +
+      '<div class="legal-modal__body"></div>' +
+      "</div>";
+
+    document.body.appendChild(wrap);
+    return wrap;
+  }
+
+  var modal = ensureModal();
+  var dialog = document.getElementById(DIALOG_ID);
+  var titleEl = modal.querySelector(".legal-modal__title");
+  var updatedEl = modal.querySelector(".legal-modal__updated");
+  var bodyEl = modal.querySelector(".legal-modal__body");
+  var lastTrigger = null;
+
+  function isOpen() {
+    return modal.classList.contains("is-open");
+  }
+
+  function openModal(type, trigger) {
+    var data = LEGAL_CONTENT[type];
+    if (!data) return;
+
+    lastTrigger = trigger || null;
+    titleEl.textContent = data.title;
+    updatedEl.textContent = data.updated;
+    bodyEl.innerHTML = data.html;
+
+    modal.classList.add("is-open");
+    modal.removeAttribute("hidden");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("legal-modal-open");
+    dialog.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("hidden", "");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("legal-modal-open");
+    if (lastTrigger && typeof lastTrigger.focus === "function") {
+      lastTrigger.focus();
+    }
+    lastTrigger = null;
+  }
+
+  function linkType(link) {
+    var label = (link.textContent || "").replace(/\s+/g, "").trim();
+    if (label === "이용약관") return "terms";
+    if (label === "개인정보처리방침") return "privacy";
+    return null;
+  }
+
+  document.querySelectorAll(".footer-links a").forEach(function (link) {
+    var type = linkType(link);
+    if (!type) return;
+
+    link.setAttribute("href", "#");
+    link.setAttribute("role", "button");
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (isOpen()) closeModal();
+      openModal(type, link);
+    });
+  });
+
+  modal.addEventListener("click", function (e) {
+    if (e.target.closest("[data-legal-close]")) closeModal();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && isOpen()) closeModal();
+  });
+})();
