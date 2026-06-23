@@ -74,8 +74,11 @@
     modelsSubnav.addEventListener("focusout", scheduleCloseModelsSubnav);
   }
 
-  /** 레이아웃 뷰포트 높이(주소창 등으로 innerHeight만 쓸 때와 어긋나는 경우 완화) */
+  /** 레이아웃 뷰포트 높이(모바일 주소창·visualViewport 반영) */
   function getLayoutViewportHeight() {
+    if (window.visualViewport && window.visualViewport.height) {
+      return window.visualViewport.height;
+    }
     var el = document.documentElement;
     if (el && el.clientHeight) return el.clientHeight;
     return window.innerHeight || 0;
@@ -99,7 +102,7 @@
     bottomBar.style.setProperty("--bottom-bar-dock", dock + "px");
 
     var i;
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < 5; i++) {
       void bottomBar.offsetHeight;
       var barBottom = bottomBar.getBoundingClientRect().bottom;
       var ft = footer.getBoundingClientRect().top;
@@ -135,7 +138,7 @@
       var lunaBottomDock =
         bottomBar.classList.contains("bottom-bar--light") && modelKv;
 
-      if (lunaBottomDock) {
+      if (lunaBottomDock && mqDesktopNav.matches) {
         var kvH = modelKv.offsetHeight || 0;
         var pastKv = kvH > 0 && y >= kvH - 1;
         bottomBar.classList.toggle("bottom-bar--dock-top", pastKv);
@@ -146,7 +149,8 @@
         }
       } else {
         bottomBar.classList.remove("bottom-bar--dock-top");
-        if (y >= 100) bottomBar.classList.add("scrolled");
+        var scrollMin = mqDesktopNav.matches ? 100 : 24;
+        if (y >= scrollMin) bottomBar.classList.add("scrolled");
         else bottomBar.classList.remove("scrolled");
       }
 
@@ -200,7 +204,16 @@
   /* ----- Mobile drawer ----- */
   var drawer = document.getElementById("mobile-drawer");
   var toggle = document.querySelector(".site-header__menu-toggle");
-  var backdrop = document.querySelector(".mobile-drawer__backdrop");
+
+  /** backdrop-filter 등 헤더 스타일이 fixed 드로어를 헤더(80px) 안에 가두지 않도록 body 직속으로 이동 */
+  function portalMobileDrawer() {
+    if (!drawer || drawer.parentElement === document.body) return;
+    document.body.appendChild(drawer);
+  }
+
+  portalMobileDrawer();
+
+  var backdrop = drawer ? drawer.querySelector(".mobile-drawer__backdrop") : null;
 
   function closeMobileMenu() {
     if (!drawer || !toggle) return;
@@ -217,6 +230,7 @@
 
   function openMobileMenu() {
     if (!drawer || !toggle) return;
+    portalMobileDrawer();
     drawer.classList.add("mobile-drawer--open");
     drawer.setAttribute("aria-hidden", "false");
     toggle.setAttribute("aria-expanded", "true");
