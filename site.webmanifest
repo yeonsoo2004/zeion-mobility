@@ -1,0 +1,18 @@
+{
+  "name": "ZEION",
+  "short_name": "ZEION",
+  "description": "전기차의 새로운 기준, ZEION",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050D1A",
+  "theme_color": "#050D1A",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "/assets/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
